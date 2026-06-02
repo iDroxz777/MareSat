@@ -1,634 +1,1571 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MareSat — Navegação Inteligente por Correntes Oceânicas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
   <style>
     :root {
-      --deep:   #05101F;
-      --navy:   #0B1D38;
-      --mid:    #102648;
-      --ocean:  #1361B5;
+      --deep: #05101F;
+      --navy: #0B1D38;
+      --mid: #102648;
+      --ocean: #1361B5;
       --bright: #3B9EE8;
-      --ice:    #9DD0F0;
-      --white:  #ECF5FF;
+      --ice: #9DD0F0;
+      --white: #ECF5FF;
     }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{font-family:'Inter',sans-serif;background:var(--deep);color:var(--white);overflow-x:hidden}
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--deep);
+      color: var(--white);
+      overflow-x: hidden
+    }
 
     /* ── NAV ── */
-    nav{position:fixed;top:0;left:0;right:0;z-index:300;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;background:rgba(5,16,31,.75);backdrop-filter:blur(18px);border-bottom:1px solid rgba(59,158,232,.07)}
-    .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--white);text-decoration:none;letter-spacing:-.03em}
-    .logo sup{font-size:.45rem;color:var(--bright);vertical-align:super;letter-spacing:.08em;text-transform:uppercase}
-    .nav-links{display:flex;align-items:center;gap:2rem}
-    .nav-links a{font-size:.8rem;color:var(--ice);text-decoration:none;opacity:.6;transition:opacity .2s}
-    .nav-links a:hover{opacity:1}
-    .nav-btn{background:var(--ocean)!important;color:var(--white)!important;opacity:1!important;padding:.4rem 1rem;border-radius:6px;transition:background .2s!important}
-    .nav-btn:hover{background:var(--bright)!important}
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 300;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      background: rgba(5, 16, 31, .75);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(59, 158, 232, .07)
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -.03em
+    }
+
+    .logo sup {
+      font-size: .45rem;
+      color: var(--bright);
+      vertical-align: super;
+      letter-spacing: .08em;
+      text-transform: uppercase
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem
+    }
+
+    .nav-links a {
+      font-size: .8rem;
+      color: var(--ice);
+      text-decoration: none;
+      opacity: .6;
+      transition: opacity .2s
+    }
+
+    .nav-links a:hover {
+      opacity: 1
+    }
+
+    .nav-btn {
+      background: var(--ocean) !important;
+      color: var(--white) !important;
+      opacity: 1 !important;
+      padding: .4rem 1rem;
+      border-radius: 6px;
+      transition: background .2s !important
+    }
+
+    .nav-btn:hover {
+      background: var(--bright) !important
+    }
 
     /* ── HERO ── */
-    .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 5vw 60px;overflow:hidden}
-    .hero-canvas{position:absolute;inset:0;pointer-events:none}
-    .hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse at 50% 40%,rgba(19,97,181,.25) 0%,rgba(59,158,232,.06) 45%,transparent 72%);pointer-events:none}
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 5vw 60px;
+      overflow: hidden
+    }
 
-    .eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(59,158,232,.22);border-radius:999px;padding:5px 14px;font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--bright);margin-bottom:1.75rem;animation:rise .8s ease both}
-    .dot{width:5px;height:5px;border-radius:50%;background:var(--bright);box-shadow:0 0 7px var(--bright);animation:blink 2.5s ease-in-out infinite}
-    .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,7.5vw,6rem);font-weight:800;line-height:1.0;letter-spacing:-.04em;max-width:860px;animation:rise .8s .1s ease both}
-    .grad{background:linear-gradient(90deg,var(--bright),var(--ice));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .hero-sub{margin-top:1.5rem;font-size:clamp(.9rem,2vw,1.05rem);font-weight:300;line-height:1.85;color:var(--ice);opacity:.7;max-width:510px;animation:rise .8s .2s ease both}
-    .hero-btns{margin-top:2.5rem;display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;animation:rise .8s .3s ease both}
-    .btn{display:inline-flex;align-items:center;gap:7px;padding:.75rem 1.7rem;border-radius:8px;font-size:.85rem;font-weight:500;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s}
-    .btn:hover{transform:translateY(-2px)}
-    .btn-fill{background:var(--ocean);color:var(--white);box-shadow:0 4px 20px rgba(19,97,181,.3)}
-    .btn-fill:hover{background:var(--bright);box-shadow:0 8px 30px rgba(59,158,232,.35)}
-    .btn-ghost{background:rgba(255,255,255,.03);border:1px solid rgba(157,208,240,.18);color:var(--ice)}
-    .btn-ghost:hover{border-color:rgba(157,208,240,.4);background:rgba(255,255,255,.06)}
+    .hero-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 600px;
+      background: radial-gradient(ellipse at 50% 40%, rgba(19, 97, 181, .25) 0%, rgba(59, 158, 232, .06) 45%, transparent 72%);
+      pointer-events: none
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(59, 158, 232, .22);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--bright);
+      margin-bottom: 1.75rem;
+      animation: rise .8s ease both
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--bright);
+      box-shadow: 0 0 7px var(--bright);
+      animation: blink 2.5s ease-in-out infinite
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 7.5vw, 6rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -.04em;
+      max-width: 860px;
+      animation: rise .8s .1s ease both
+    }
+
+    .grad {
+      background: linear-gradient(90deg, var(--bright), var(--ice));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: clamp(.9rem, 2vw, 1.05rem);
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--ice);
+      opacity: .7;
+      max-width: 510px;
+      animation: rise .8s .2s ease both
+    }
+
+    .hero-btns {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: .9rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: rise .8s .3s ease both
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: .75rem 1.7rem;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s, background .2s
+    }
+
+    .btn:hover {
+      transform: translateY(-2px)
+    }
+
+    .btn-fill {
+      background: var(--ocean);
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(19, 97, 181, .3)
+    }
+
+    .btn-fill:hover {
+      background: var(--bright);
+      box-shadow: 0 8px 30px rgba(59, 158, 232, .35)
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid rgba(157, 208, 240, .18);
+      color: var(--ice)
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(157, 208, 240, .4);
+      background: rgba(255, 255, 255, .06)
+    }
 
     /* stats */
-    .hero-stats{margin-top:4.5rem;display:flex;gap:3rem;flex-wrap:wrap;justify-content:center;animation:rise .8s .4s ease both}
-    .stat{text-align:center}
-    .stat-v{font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;letter-spacing:-.04em;line-height:1}
-    .stat-v span{color:var(--bright)}
-    .stat-l{margin-top:5px;font-size:.72rem;color:var(--ice);opacity:.45;letter-spacing:.06em;text-transform:uppercase}
-    .stat-sep{width:1px;background:rgba(157,208,240,.1);align-self:stretch}
+    .hero-stats {
+      margin-top: 4.5rem;
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: rise .8s .4s ease both
+    }
+
+    .stat {
+      text-align: center
+    }
+
+    .stat-v {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -.04em;
+      line-height: 1
+    }
+
+    .stat-v span {
+      color: var(--bright)
+    }
+
+    .stat-l {
+      margin-top: 5px;
+      font-size: .72rem;
+      color: var(--ice);
+      opacity: .45;
+      letter-spacing: .06em;
+      text-transform: uppercase
+    }
+
+    .stat-sep {
+      width: 1px;
+      background: rgba(157, 208, 240, .1);
+      align-self: stretch
+    }
 
     /* scroll */
-    .scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ice);opacity:.3;animation:rise 1s .9s ease both}
-    .scroll-bar{width:1px;height:32px;background:linear-gradient(to bottom,rgba(157,208,240,.5),transparent);animation:drip 2s ease-in-out infinite}
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ice);
+      opacity: .3;
+      animation: rise 1s .9s ease both
+    }
+
+    .scroll-bar {
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(to bottom, rgba(157, 208, 240, .5), transparent);
+      animation: drip 2s ease-in-out infinite
+    }
 
     /* ── PROBLEM / IMPACT ── */
-    .impact{padding:7rem 5vw;background:var(--navy);position:relative;overflow:hidden}
-    .impact::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,158,232,.18),transparent)}
-    .sec-inner{max-width:1100px;margin:0 auto}
-    .kicker{font-size:.68rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--bright);margin-bottom:.9rem}
-    .sec-h{font-family:'Syne',sans-serif;font-size:clamp(1.7rem,4vw,2.6rem);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:1rem}
-    .sec-p{font-size:.9rem;font-weight:300;line-height:1.85;color:var(--ice);opacity:.6;max-width:480px}
+    .impact {
+      padding: 7rem 5vw;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden
+    }
 
-    .impact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:4rem}
-    .impact-text{}
-    .impact-visual{display:flex;flex-direction:column;gap:1rem}
+    .impact::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(59, 158, 232, .18), transparent)
+    }
+
+    .sec-inner {
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .kicker {
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--bright);
+      margin-bottom: .9rem
+    }
+
+    .sec-h {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      margin-bottom: 1rem
+    }
+
+    .sec-p {
+      font-size: .9rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--ice);
+      opacity: .6;
+      max-width: 480px
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 4rem
+    }
+
+    .impact-text {}
+
+    .impact-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem
+    }
 
     /* bar chart visual */
-    .chart-title{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ice);opacity:.4;margin-bottom:1.25rem}
-    .bar-row{display:flex;flex-direction:column;gap:6px;margin-bottom:.9rem}
-    .bar-label{display:flex;justify-content:space-between;font-size:.78rem;color:var(--ice);opacity:.65}
-    .bar-track{height:8px;background:rgba(157,208,240,.07);border-radius:99px;overflow:hidden}
-    .bar-fill{height:100%;border-radius:99px;width:0;transition:width 1.4s cubic-bezier(.25,.8,.25,1)}
-    .bar-co2{background:linear-gradient(90deg,#e05a3a,#c44026)}
-    .bar-fuel{background:linear-gradient(90deg,#e09a3a,#c47a26)}
-    .bar-mare{background:linear-gradient(90deg,var(--ocean),var(--bright))}
+    .chart-title {
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ice);
+      opacity: .4;
+      margin-bottom: 1.25rem
+    }
 
-    .chart-note{font-size:.72rem;color:var(--ice);opacity:.35;margin-top:.5rem;font-style:italic}
+    .bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: .9rem
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .78rem;
+      color: var(--ice);
+      opacity: .65
+    }
+
+    .bar-track {
+      height: 8px;
+      background: rgba(157, 208, 240, .07);
+      border-radius: 99px;
+      overflow: hidden
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0;
+      transition: width 1.4s cubic-bezier(.25, .8, .25, 1)
+    }
+
+    .bar-co2 {
+      background: linear-gradient(90deg, #e05a3a, #c44026)
+    }
+
+    .bar-fuel {
+      background: linear-gradient(90deg, #e09a3a, #c47a26)
+    }
+
+    .bar-mare {
+      background: linear-gradient(90deg, var(--ocean), var(--bright))
+    }
+
+    .chart-note {
+      font-size: .72rem;
+      color: var(--ice);
+      opacity: .35;
+      margin-top: .5rem;
+      font-style: italic
+    }
 
     /* ── HOW ── */
-    .how{padding:7rem 5vw;background:var(--deep)}
-    .how-head{text-align:center;margin-bottom:4.5rem}
-    .how-head .sec-h{max-width:100%}
-    .how-head .sec-p{max-width:480px;margin:0 auto}
+    .how {
+      padding: 7rem 5vw;
+      background: var(--deep)
+    }
 
-    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1100px;margin:0 auto}
-    .step{background:rgba(5,16,31,.55);border:1px solid rgba(59,158,232,.08);padding:2.75rem 2.25rem;position:relative;overflow:hidden;transition:border-color .3s,background .3s}
-    .step:first-child{border-radius:16px 0 0 16px}
-    .step:last-child{border-radius:0 16px 16px 0}
-    .step:hover{background:rgba(11,29,56,.7);border-color:rgba(59,158,232,.22)}
-    .step::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--ocean),transparent);opacity:0;transition:opacity .3s}
-    .step:hover::before{opacity:1}
-    .step-n{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:rgba(59,158,232,.07);line-height:1;margin-bottom:1.2rem}
-    .step-icon{width:42px;height:42px;border-radius:10px;background:rgba(19,97,181,.18);border:1px solid rgba(59,158,232,.16);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1.3rem}
-    .step h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.65rem;color:var(--white)}
-    .step p{font-size:.85rem;font-weight:300;color:var(--ice);opacity:.6;line-height:1.78}
+    .how-head {
+      text-align: center;
+      margin-bottom: 4.5rem
+    }
+
+    .how-head .sec-h {
+      max-width: 100%
+    }
+
+    .how-head .sec-p {
+      max-width: 480px;
+      margin: 0 auto
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .step {
+      background: rgba(5, 16, 31, .55);
+      border: 1px solid rgba(59, 158, 232, .08);
+      padding: 2.75rem 2.25rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, background .3s
+    }
+
+    .step:first-child {
+      border-radius: 16px 0 0 16px
+    }
+
+    .step:last-child {
+      border-radius: 0 16px 16px 0
+    }
+
+    .step:hover {
+      background: rgba(11, 29, 56, .7);
+      border-color: rgba(59, 158, 232, .22)
+    }
+
+    .step::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--ocean), transparent);
+      opacity: 0;
+      transition: opacity .3s
+    }
+
+    .step:hover::before {
+      opacity: 1
+    }
+
+    .step-n {
+      font-family: 'Syne', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: rgba(59, 158, 232, .07);
+      line-height: 1;
+      margin-bottom: 1.2rem
+    }
+
+    .step-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(19, 97, 181, .18);
+      border: 1px solid rgba(59, 158, 232, .16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 1.3rem
+    }
+
+    .step h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .65rem;
+      color: var(--white)
+    }
+
+    .step p {
+      font-size: .85rem;
+      font-weight: 300;
+      color: var(--ice);
+      opacity: .6;
+      line-height: 1.78
+    }
 
     /* ── ANIMATED MAP ── */
-    .mapblock{padding:6rem 5vw;background:var(--navy);overflow:hidden}
-    .map-inner{max-width:1100px;margin:0 auto}
-    .map-head{margin-bottom:3rem}
-    .map-wrap{position:relative;border-radius:20px;border:1px solid rgba(59,158,232,.12);overflow:hidden;background:#060e1c}
-    .map-svg{width:100%;display:block}
-    .map-overlay{position:absolute;top:1.5rem;right:1.5rem;background:rgba(5,16,31,.85);backdrop-filter:blur(12px);border:1px solid rgba(59,158,232,.15);border-radius:12px;padding:1rem 1.25rem;min-width:180px}
-    .ov-title{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--bright);margin-bottom:.75rem}
-    .ov-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem}
-    .ov-key{font-size:.75rem;color:var(--ice);opacity:.55}
-    .ov-val{font-size:.78rem;font-weight:500;color:var(--white)}
-    .ov-val.good{color:#4be38a}
-    .ov-val.warn{color:#f0a832}
+    .mapblock {
+      padding: 6rem 5vw;
+      background: var(--navy);
+      overflow: hidden
+    }
+
+    .map-inner {
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .map-head {
+      margin-bottom: 3rem
+    }
+
+    .map-wrap {
+      position: relative;
+      border-radius: 20px;
+      border: 1px solid rgba(59, 158, 232, .12);
+      overflow: hidden;
+      background: #060e1c
+    }
+
+    .map-svg {
+      width: 100%;
+      display: block
+    }
+
+    .map-overlay {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(5, 16, 31, .85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(59, 158, 232, .15);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      min-width: 180px
+    }
+
+    .ov-title {
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--bright);
+      margin-bottom: .75rem
+    }
+
+    .ov-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .45rem
+    }
+
+    .ov-key {
+      font-size: .75rem;
+      color: var(--ice);
+      opacity: .55
+    }
+
+    .ov-val {
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--white)
+    }
+
+    .ov-val.good {
+      color: #4be38a
+    }
+
+    .ov-val.warn {
+      color: #f0a832
+    }
 
     /* ── MODES ── */
-    .modes{padding:7rem 5vw;background:var(--deep)}
-    .modes-head{margin-bottom:4rem}
-    .cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:1100px;margin:0 auto}
-    .card{border-radius:20px;padding:3.25rem 2.75rem;text-decoration:none;display:flex;flex-direction:column;border:1px solid rgba(59,158,232,.09);position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.25,.8,.25,1),box-shadow .35s,border-color .35s}
-    .card:hover{transform:translateY(-8px);box-shadow:0 30px 70px rgba(5,16,31,.7)}
-    .card-ocean{background:linear-gradient(155deg,#091d3e 0%,#06112a 70%,var(--deep) 100%)}
-    .card-ocean:hover{border-color:rgba(59,158,232,.26)}
-    .card-coastal{background:linear-gradient(155deg,#071d36 0%,#051526 70%,var(--deep) 100%)}
-    .card-coastal:hover{border-color:rgba(59,158,232,.18)}
-    .card::after{content:'';position:absolute;top:-90px;right:-90px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(59,158,232,.05) 0%,transparent 70%);pointer-events:none}
-    .card-tag{font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--bright);border:1px solid rgba(59,158,232,.22);border-radius:999px;padding:4px 12px;display:inline-flex;align-self:flex-start;margin-bottom:1.75rem}
-    .card-title{font-family:'Syne',sans-serif;font-size:1.85rem;font-weight:700;letter-spacing:-.03em;color:var(--white);margin-bottom:.7rem}
-    .card-desc{font-size:.875rem;font-weight:300;color:var(--ice);opacity:.58;line-height:1.82;margin-bottom:2rem}
-    .card-list{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:auto}
-    .card-list li{font-size:.83rem;font-weight:400;color:var(--ice);opacity:.62;display:flex;align-items:center;gap:9px}
-    .card-list li::before{content:'';flex-shrink:0;width:14px;height:1px;background:var(--ocean)}
-    .card-cta{margin-top:2.25rem;display:inline-flex;align-items:center;gap:9px;font-size:.83rem;font-weight:500;color:var(--bright);transition:gap .25s}
-    .card:hover .card-cta{gap:15px}
-    .cta-circle{width:26px;height:26px;border-radius:50%;background:rgba(59,158,232,.1);border:1px solid rgba(59,158,232,.2);display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:background .2s,border-color .2s}
-    .card:hover .cta-circle{background:rgba(59,158,232,.2);border-color:rgba(59,158,232,.38)}
+    .modes {
+      padding: 7rem 5vw;
+      background: var(--deep)
+    }
+
+    .modes-head {
+      margin-bottom: 4rem
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .card {
+      border-radius: 20px;
+      padding: 3.25rem 2.75rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(59, 158, 232, .09);
+      position: relative;
+      overflow: hidden;
+      transition: transform .35s cubic-bezier(.25, .8, .25, 1), box-shadow .35s, border-color .35s
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 70px rgba(5, 16, 31, .7)
+    }
+
+    .card-ocean {
+      background: linear-gradient(155deg, #091d3e 0%, #06112a 70%, var(--deep) 100%)
+    }
+
+    .card-ocean:hover {
+      border-color: rgba(59, 158, 232, .26)
+    }
+
+    .card-coastal {
+      background: linear-gradient(155deg, #071d36 0%, #051526 70%, var(--deep) 100%)
+    }
+
+    .card-coastal:hover {
+      border-color: rgba(59, 158, 232, .18)
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      top: -90px;
+      right: -90px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 158, 232, .05) 0%, transparent 70%);
+      pointer-events: none
+    }
+
+    .card-tag {
+      font-size: .65rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--bright);
+      border: 1px solid rgba(59, 158, 232, .22);
+      border-radius: 999px;
+      padding: 4px 12px;
+      display: inline-flex;
+      align-self: flex-start;
+      margin-bottom: 1.75rem
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      color: var(--white);
+      margin-bottom: .7rem
+    }
+
+    .card-desc {
+      font-size: .875rem;
+      font-weight: 300;
+      color: var(--ice);
+      opacity: .58;
+      line-height: 1.82;
+      margin-bottom: 2rem
+    }
+
+    .card-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: auto
+    }
+
+    .card-list li {
+      font-size: .83rem;
+      font-weight: 400;
+      color: var(--ice);
+      opacity: .62;
+      display: flex;
+      align-items: center;
+      gap: 9px
+    }
+
+    .card-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 14px;
+      height: 1px;
+      background: var(--ocean)
+    }
+
+    .card-cta {
+      margin-top: 2.25rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: .83rem;
+      font-weight: 500;
+      color: var(--bright);
+      transition: gap .25s
+    }
+
+    .card:hover .card-cta {
+      gap: 15px
+    }
+
+    .cta-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(59, 158, 232, .1);
+      border: 1px solid rgba(59, 158, 232, .2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      transition: background .2s, border-color .2s
+    }
+
+    .card:hover .cta-circle {
+      background: rgba(59, 158, 232, .2);
+      border-color: rgba(59, 158, 232, .38)
+    }
 
     /* ── CO2 COUNTER ── */
-    .counter-section{padding:6rem 5vw;background:var(--navy);text-align:center}
-    .counter-inner{max-width:700px;margin:0 auto}
-    .counter-label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bright);margin-bottom:1rem}
-    .counter-number{font-family:'Syne',sans-serif;font-size:clamp(3rem,8vw,5.5rem);font-weight:800;letter-spacing:-.04em;color:var(--white);line-height:1;margin-bottom:.5rem}
-    .counter-number span{color:var(--bright)}
-    .counter-sub{font-size:.9rem;font-weight:300;color:var(--ice);opacity:.5;margin-bottom:3rem}
-    .counter-badges{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
-    .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(59,158,232,.06);border:1px solid rgba(59,158,232,.14);border-radius:999px;padding:8px 18px;font-size:.8rem;color:var(--ice)}
-    .badge-dot{width:7px;height:7px;border-radius:50%}
-    .bdot-green{background:#4be38a}
-    .bdot-yellow{background:#f0a832}
-    .bdot-blue{background:var(--bright)}
+    .counter-section {
+      padding: 6rem 5vw;
+      background: var(--navy);
+      text-align: center
+    }
+
+    .counter-inner {
+      max-width: 700px;
+      margin: 0 auto
+    }
+
+    .counter-label {
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--bright);
+      margin-bottom: 1rem
+    }
+
+    .counter-number {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -.04em;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: .5rem
+    }
+
+    .counter-number span {
+      color: var(--bright)
+    }
+
+    .counter-sub {
+      font-size: .9rem;
+      font-weight: 300;
+      color: var(--ice);
+      opacity: .5;
+      margin-bottom: 3rem
+    }
+
+    .counter-badges {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(59, 158, 232, .06);
+      border: 1px solid rgba(59, 158, 232, .14);
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: .8rem;
+      color: var(--ice)
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%
+    }
+
+    .bdot-green {
+      background: #4be38a
+    }
+
+    .bdot-yellow {
+      background: #f0a832
+    }
+
+    .bdot-blue {
+      background: var(--bright)
+    }
 
     /* ── FOOTER ── */
-    footer{background:var(--deep);border-top:1px solid rgba(59,158,232,.07);padding:5rem 5vw 2.5rem}
-    .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start}
-    .f-logo{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;letter-spacing:-.03em;color:var(--white);margin-bottom:.5rem}
-    .f-logo sup{font-size:.45rem;color:var(--bright);vertical-align:super;text-transform:uppercase;letter-spacing:.08em}
-    .f-tagline{font-size:.8rem;font-weight:300;color:var(--ice);opacity:.4;margin-bottom:1.75rem}
-    .f-team-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ice);opacity:.28;margin-bottom:.65rem}
-    .f-team{display:flex;flex-direction:column;gap:.3rem}
-    .f-team span{font-size:.8rem;font-weight:300;color:var(--ice);opacity:.45}
-    .f-right{text-align:right}
-    .f-badge{display:inline-block;font-size:.67rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bright);border:1px solid rgba(59,158,232,.18);border-radius:6px;padding:6px 13px;margin-bottom:.75rem}
-    .f-delivery{font-size:.76rem;font-weight:300;color:var(--ice);opacity:.35}
-    .footer-bottom{max-width:1100px;margin:2.5rem auto 0;padding-top:2rem;border-top:1px solid rgba(59,158,232,.06);display:flex;justify-content:space-between;align-items:center}
-    .footer-bottom p{font-size:.73rem;font-weight:300;color:var(--ice);opacity:.22}
+    footer {
+      background: var(--deep);
+      border-top: 1px solid rgba(59, 158, 232, .07);
+      padding: 5rem 5vw 2.5rem
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: start
+    }
+
+    .f-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      color: var(--white);
+      margin-bottom: .5rem
+    }
+
+    .f-logo sup {
+      font-size: .45rem;
+      color: var(--bright);
+      vertical-align: super;
+      text-transform: uppercase;
+      letter-spacing: .08em
+    }
+
+    .f-tagline {
+      font-size: .8rem;
+      font-weight: 300;
+      color: var(--ice);
+      opacity: .4;
+      margin-bottom: 1.75rem
+    }
+
+    .f-team-label {
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ice);
+      opacity: .28;
+      margin-bottom: .65rem
+    }
+
+    .f-team {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem
+    }
+
+    .f-team span {
+      font-size: .8rem;
+      font-weight: 300;
+      color: var(--ice);
+      opacity: .45
+    }
+
+    .f-right {
+      text-align: right
+    }
+
+    .f-badge {
+      display: inline-block;
+      font-size: .67rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--bright);
+      border: 1px solid rgba(59, 158, 232, .18);
+      border-radius: 6px;
+      padding: 6px 13px;
+      margin-bottom: .75rem
+    }
+
+    .f-delivery {
+      font-size: .76rem;
+      font-weight: 300;
+      color: var(--ice);
+      opacity: .35
+    }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2.5rem auto 0;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(59, 158, 232, .06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .footer-bottom p {
+      font-size: .73rem;
+      font-weight: 300;
+      color: var(--ice);
+      opacity: .22
+    }
 
     /* ── ANIMATIONS ── */
-    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-    @keyframes drip{0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:.65;transform:scaleY(1.4)}}
-    @keyframes dash{to{stroke-dashoffset:-40}}
-    @keyframes pulse-ring{0%{r:6;opacity:.9}100%{r:22;opacity:0}}
-    @keyframes ship-move{0%{transform:translate(0,0)}50%{transform:translate(6px,-3px)}100%{transform:translate(0,0)}}
-    @keyframes count-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    @keyframes drip {
+
+      0%,
+      100% {
+        opacity: .4;
+        transform: scaleY(1)
+      }
+
+      50% {
+        opacity: .65;
+        transform: scaleY(1.4)
+      }
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -40
+      }
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        r: 6;
+        opacity: .9
+      }
+
+      100% {
+        r: 22;
+        opacity: 0
+      }
+    }
+
+    @keyframes ship-move {
+      0% {
+        transform: translate(0, 0)
+      }
+
+      50% {
+        transform: translate(6px, -3px)
+      }
+
+      100% {
+        transform: translate(0, 0)
+      }
+    }
+
+    @keyframes count-up {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
 
     /* ── RESPONSIVE ── */
-    @media(max-width:900px){
-      .steps{grid-template-columns:1fr;gap:1px}
-      .step:first-child{border-radius:16px 16px 0 0}
-      .step:last-child{border-radius:0 0 16px 16px}
-      .cards{grid-template-columns:1fr}
-      .impact-grid{grid-template-columns:1fr}
-      .footer-inner{grid-template-columns:1fr}
-      .f-right{text-align:left}
-      .nav-links a:not(.nav-btn){display:none}
+    @media(max-width:900px) {
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 1px
+      }
+
+      .step:first-child {
+        border-radius: 16px 16px 0 0
+      }
+
+      .step:last-child {
+        border-radius: 0 0 16px 16px
+      }
+
+      .cards {
+        grid-template-columns: 1fr
+      }
+
+      .impact-grid {
+        grid-template-columns: 1fr
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr
+      }
+
+      .f-right {
+        text-align: left
+      }
+
+      .nav-links a:not(.nav-btn) {
+        display: none
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="index.html" class="logo">MareSat<sup>®</sup></a>
-  <div class="nav-links">
-    <a href="#problema">O Problema</a>
-    <a href="#como-funciona">Como Funciona</a>
-    <a href="#modos">Plataformas</a>
-    <a href="ocean.html" class="nav-btn">Acessar plataforma →</a>
-  </div>
-</nav>
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">
+      <img src="img/maresat_logo.svg" alt="MareSat Logo" height="150" class="d-inline-block align-text-top">
+    </a>
+    <div class="nav-links">
+      <a href="#problema">O Problema</a>
+      <a href="#como-funciona">Como Funciona</a>
+      <a href="#modos">Plataformas</a>
+      <a href="ocean.html" class="nav-btn">Acessar plataforma →</a>
+    </div>
+  </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <canvas class="hero-canvas" id="heroCanvas"></canvas>
-  <div class="hero-glow"></div>
+  <!-- HERO -->
+  <section class="hero">
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <div class="hero-glow"></div>
 
-  <div class="eyebrow"><span class="dot"></span> Global Solution 2026 · FIAP</div>
+    <div class="eyebrow"><span class="dot"></span> Global Solution 2026 · FIAP</div>
 
-  <h1>O oceano é a rota.<br/><span class="grad">O MareSat é o caminho.</span></h1>
+    <h1>O oceano é a rota.<br /><span class="grad">O MareSat é o caminho.</span></h1>
 
-  <p class="hero-sub">
-    Satélites analisam correntes oceânicas em tempo real para otimizar rotas
-    marítimas — reduzindo combustível, custo e emissões de CO₂.
-  </p>
+    <p class="hero-sub">
+      Satélites analisam correntes oceânicas em tempo real para otimizar rotas
+      marítimas — reduzindo combustível, custo e emissões de CO₂.
+    </p>
 
-  <div class="hero-btns">
-    <a href="ocean.html" class="btn btn-fill">🌊 Ocean Mode</a>
-    <a href="coastal.html" class="btn btn-ghost">🏖️ Coastal Mode</a>
-  </div>
+    <div class="hero-btns">
+      <a href="ocean.html" class="btn btn-fill">🌊 Ocean Mode</a>
+      <a href="coastal.html" class="btn btn-ghost">🏖️ Coastal Mode</a>
+    </div>
 
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-v">30<span>%</span></div><div class="stat-l">menos combustível</div></div>
-    <div class="stat-sep"></div>
-    <div class="stat"><div class="stat-v">24<span>h</span></div><div class="stat-l">dados em tempo real</div></div>
-    <div class="stat-sep"></div>
-    <div class="stat"><div class="stat-v">360<span>°</span></div><div class="stat-l">cobertura oceânica</div></div>
-    <div class="stat-sep"></div>
-    <div class="stat"><div class="stat-v">2<span>x</span></div><div class="stat-l">modos de operação</div></div>
-  </div>
-
-  <div class="scroll-hint"><div class="scroll-bar"></div>scroll</div>
-</section>
-
-<!-- PROBLEM / IMPACT -->
-<section class="impact" id="problema">
-  <div class="sec-inner">
-    <div class="impact-grid">
-      <div class="impact-text">
-        <div class="kicker">O Problema</div>
-        <h2 class="sec-h">Navios queimam combustível desnecessário todo dia</h2>
-        <p class="sec-p">
-          O transporte marítimo é responsável por cerca de <strong style="color:var(--white);font-weight:500">3% das emissões globais de CO₂</strong>.
-          Rotas sem otimização desperdiçam milhões de litros de combustível por ano.
-          O MareSat usa correntes oceânicas como "vento nas velas" da era moderna.
-        </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-v">30<span>%</span></div>
+        <div class="stat-l">menos combustível</div>
       </div>
-      <div class="impact-visual">
-        <div class="chart-title">Comparativo de emissões e consumo por rota</div>
-
-        <div class="bar-row">
-          <div class="bar-label"><span>Rota tradicional — CO₂</span><span style="color:#e05a3a">100%</span></div>
-          <div class="bar-track"><div class="bar-fill bar-co2" data-width="100"></div></div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label"><span>Rota tradicional — Combustível</span><span style="color:#e09a3a">100%</span></div>
-          <div class="bar-track"><div class="bar-fill bar-fuel" data-width="100"></div></div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label"><span>Com MareSat — CO₂</span><span style="color:var(--bright)">68%</span></div>
-          <div class="bar-track"><div class="bar-fill bar-mare" data-width="68"></div></div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label"><span>Com MareSat — Combustível</span><span style="color:var(--bright)">70%</span></div>
-          <div class="bar-track"><div class="bar-fill bar-mare" data-width="70"></div></div>
-        </div>
-
-        <p class="chart-note">* Simulação baseada em dados de rotas oceânicas otimizadas</p>
+      <div class="stat-sep"></div>
+      <div class="stat">
+        <div class="stat-v">24<span>h</span></div>
+        <div class="stat-l">dados em tempo real</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat">
+        <div class="stat-v">360<span>°</span></div>
+        <div class="stat-l">cobertura oceânica</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat">
+        <div class="stat-v">2<span>x</span></div>
+        <div class="stat-l">modos de operação</div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- HOW -->
-<section class="how" id="como-funciona">
-  <div class="how-head">
-    <div class="kicker">Como funciona</div>
-    <h2 class="sec-h">Três etapas. Rota perfeita.</h2>
-    <p class="sec-p" style="margin-top:.75rem">Da coleta de dados via satélite até a rota otimizada entregue ao capitão.</p>
-  </div>
-  <div class="steps">
-    <div class="step">
-      <div class="step-n">01</div>
-      <div class="step-icon">🛰️</div>
-      <h3>Coleta via satélite</h3>
-      <p>Sensores orbitais monitoram temperatura, velocidade e direção das correntes oceânicas com cobertura global e contínua, 24 horas por dia.</p>
+    <div class="scroll-hint">
+      <div class="scroll-bar"></div>scroll
     </div>
-    <div class="step">
-      <div class="step-n">02</div>
-      <div class="step-icon">⚙️</div>
-      <h3>Processamento inteligente</h3>
-      <p>Algoritmos cruzam dados de correntes, ventos e rotas históricas para calcular o caminho mais eficiente energeticamente para cada embarcação.</p>
+  </section>
+
+  <!-- PROBLEM / IMPACT -->
+  <section class="impact" id="problema">
+    <div class="sec-inner">
+      <div class="impact-grid">
+        <div class="impact-text">
+          <div class="kicker">O Problema</div>
+          <h2 class="sec-h">Navios queimam combustível desnecessário todo dia</h2>
+          <p class="sec-p">
+            O transporte marítimo é responsável por cerca de <strong style="color:var(--white);font-weight:500">3% das
+              emissões globais de CO₂</strong>.
+            Rotas sem otimização desperdiçam milhões de litros de combustível por ano.
+            O MareSat usa correntes oceânicas como "vento nas velas" da era moderna.
+          </p>
+        </div>
+        <div class="impact-visual">
+          <div class="chart-title">Comparativo de emissões e consumo por rota</div>
+
+          <div class="bar-row">
+            <div class="bar-label"><span>Rota tradicional — CO₂</span><span style="color:#e05a3a">100%</span></div>
+            <div class="bar-track">
+              <div class="bar-fill bar-co2" data-width="100"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Rota tradicional — Combustível</span><span style="color:#e09a3a">100%</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill bar-fuel" data-width="100"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Com MareSat — CO₂</span><span style="color:var(--bright)">68%</span></div>
+            <div class="bar-track">
+              <div class="bar-fill bar-mare" data-width="68"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Com MareSat — Combustível</span><span style="color:var(--bright)">70%</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill bar-mare" data-width="70"></div>
+            </div>
+          </div>
+
+          <p class="chart-note">* Simulação baseada em dados de rotas oceânicas otimizadas</p>
+        </div>
+      </div>
     </div>
-    <div class="step">
-      <div class="step-n">03</div>
-      <div class="step-icon">📡</div>
-      <h3>Rota em tempo real</h3>
-      <p>O capitão recebe no painel a rota otimizada com estimativa de economia de combustível, redução de CO₂ e tempo de chegada recalculado.</p>
+  </section>
+
+  <!-- HOW -->
+  <section class="how" id="como-funciona">
+    <div class="how-head">
+      <div class="kicker">Como funciona</div>
+      <h2 class="sec-h">Três etapas. Rota perfeita.</h2>
+      <p class="sec-p" style="margin-top:.75rem">Da coleta de dados via satélite até a rota otimizada entregue ao
+        capitão.</p>
     </div>
-  </div>
-</section>
-
-<!-- ANIMATED MAP -->
-<section class="mapblock">
-  <div class="map-inner">
-    <div class="map-head">
-      <div class="kicker">Visualização</div>
-      <h2 class="sec-h">Rotas oceânicas em tempo real</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-icon">🛰️</div>
+        <h3>Coleta via satélite</h3>
+        <p>Sensores orbitais monitoram temperatura, velocidade e direção das correntes oceânicas com cobertura global e
+          contínua, 24 horas por dia.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-icon">⚙️</div>
+        <h3>Processamento inteligente</h3>
+        <p>Algoritmos cruzam dados de correntes, ventos e rotas históricas para calcular o caminho mais eficiente
+          energeticamente para cada embarcação.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-icon">📡</div>
+        <h3>Rota em tempo real</h3>
+        <p>O capitão recebe no painel a rota otimizada com estimativa de economia de combustível, redução de CO₂ e tempo
+          de chegada recalculado.</p>
+      </div>
     </div>
-    <div class="map-wrap">
-      <svg class="map-svg" viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="mapbg" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stop-color="#0a1e3d"/>
-            <stop offset="100%" stop-color="#060e1c"/>
-          </radialGradient>
-          <!-- current flow pattern -->
-          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-            <path d="M2 2L8 5L2 8" fill="none" stroke="#1361B5" stroke-width="1.5" stroke-linecap="round"/>
-          </marker>
-          <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-            <path d="M2 2L8 5L2 8" fill="none" stroke="#3B9EE8" stroke-width="1.5" stroke-linecap="round"/>
-          </marker>
-          <filter id="glow-blue">
-            <feGaussianBlur stdDeviation="3" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
+  </section>
 
-        <!-- background -->
-        <rect width="1100" height="520" fill="url(#mapbg)"/>
+  <!-- ANIMATED MAP -->
+  <section class="mapblock">
+    <div class="map-inner">
+      <div class="map-head">
+        <div class="kicker">Visualização</div>
+        <h2 class="sec-h">Rotas oceânicas em tempo real</h2>
+      </div>
+      <div class="map-wrap">
+        <svg class="map-svg" viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="mapbg" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#0a1e3d" />
+              <stop offset="100%" stop-color="#060e1c" />
+            </radialGradient>
+            <!-- current flow pattern -->
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M2 2L8 5L2 8" fill="none" stroke="#1361B5" stroke-width="1.5" stroke-linecap="round" />
+            </marker>
+            <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M2 2L8 5L2 8" fill="none" stroke="#3B9EE8" stroke-width="1.5" stroke-linecap="round" />
+            </marker>
+            <filter id="glow-blue">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
 
-        <!-- grid lines -->
-        <g stroke="rgba(59,158,232,0.06)" stroke-width="0.5">
-          <line x1="0" y1="130" x2="1100" y2="130"/>
-          <line x1="0" y1="260" x2="1100" y2="260"/>
-          <line x1="0" y1="390" x2="1100" y2="390"/>
-          <line x1="220" y1="0" x2="220" y2="520"/>
-          <line x1="440" y1="0" x2="440" y2="520"/>
-          <line x1="660" y1="0" x2="660" y2="520"/>
-          <line x1="880" y1="0" x2="880" y2="520"/>
-        </g>
+          <!-- background -->
+          <rect width="1100" height="520" fill="url(#mapbg)" />
 
-        <!-- continents simplified -->
-        <!-- South America -->
-        <path d="M180 90 Q200 80 215 95 Q230 140 225 200 Q220 260 210 300 Q200 340 190 350 Q175 360 165 340 Q155 310 158 270 Q160 230 155 180 Q152 140 165 110 Z" fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5"/>
-        <!-- North America west coast -->
-        <path d="M60 60 Q90 50 120 70 Q150 90 160 130 Q165 160 155 180 Q145 175 130 160 Q100 140 75 120 Q50 100 60 60 Z" fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5"/>
-        <!-- Europe/Africa -->
-        <path d="M520 60 Q545 55 555 80 Q560 110 550 150 Q545 180 540 200 Q535 230 530 260 Q525 300 520 340 Q510 370 500 380 Q490 370 488 340 Q485 300 490 260 Q495 220 500 180 Q505 140 510 110 Q514 80 520 60 Z" fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5"/>
-        <!-- Africa lower -->
-        <path d="M500 380 Q510 400 515 430 Q512 460 505 470 Q495 465 488 440 Q484 410 490 380 Z" fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5"/>
-        <!-- Asia/Europe right -->
-        <path d="M660 40 Q750 35 820 55 Q880 70 920 90 Q950 110 940 140 Q920 150 880 145 Q840 140 800 130 Q760 120 720 110 Q680 100 660 80 Z" fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5"/>
-        <!-- Australia -->
-        <path d="M840 300 Q880 285 920 295 Q950 310 955 340 Q950 370 930 385 Q900 395 870 385 Q840 370 830 345 Q825 320 840 300 Z" fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5"/>
-
-        <!-- OCEAN CURRENTS — animated dashes -->
-        <!-- Gulf Stream -->
-        <path d="M 180 200 Q 250 180 330 160 Q 420 140 500 150 Q 580 160 640 180" fill="none" stroke="#1361B5" stroke-width="2" stroke-dasharray="12 8" opacity="0.5">
-          <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="3s" repeatCount="indefinite"/>
-        </path>
-        <!-- South Atlantic current -->
-        <path d="M 210 320 Q 300 340 390 330 Q 460 320 510 340" fill="none" stroke="#0e4a8a" stroke-width="1.5" stroke-dasharray="10 8" opacity="0.4">
-          <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="4s" repeatCount="indefinite"/>
-        </path>
-        <!-- North Pacific -->
-        <path d="M 700 200 Q 780 180 860 190 Q 940 200 1000 220 Q 1060 240 1090 270" fill="none" stroke="#1361B5" stroke-width="2" stroke-dasharray="12 8" opacity="0.45">
-          <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="3.5s" repeatCount="indefinite"/>
-        </path>
-        <!-- Indian Ocean -->
-        <path d="M 620 360 Q 680 340 750 350 Q 820 360 860 345" fill="none" stroke="#0e4a8a" stroke-width="1.5" stroke-dasharray="10 6" opacity="0.4">
-          <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="4.5s" repeatCount="indefinite"/>
-        </path>
-        <!-- Equatorial -->
-        <path d="M 250 265 Q 350 255 450 262 Q 560 270 660 262 Q 760 255 880 262" fill="none" stroke="#3B9EE8" stroke-width="1" stroke-dasharray="8 10" opacity="0.25">
-          <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="6s" repeatCount="indefinite"/>
-        </path>
-
-        <!-- OPTIMIZED ROUTE — glowing line -->
-        <path id="route" d="M 215 310 Q 290 295 370 270 Q 450 248 530 238 Q 610 228 700 235 Q 780 242 840 260" fill="none" stroke="#3B9EE8" stroke-width="2.5" stroke-dasharray="6 4" filter="url(#glow-blue)" opacity="0.9">
-          <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="2s" repeatCount="indefinite"/>
-        </path>
-        <!-- route dots -->
-        <circle cx="215" cy="310" r="5" fill="#3B9EE8" opacity="0.9">
-          <animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="840" cy="260" r="5" fill="#4be38a" opacity="0.9">
-          <animate attributeName="r" values="5;8;5" dur="2s" begin="0.5s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" begin="0.5s" repeatCount="indefinite"/>
-        </circle>
-
-        <!-- ship icon (simplified triangle) -->
-        <g style="animation:ship-move 4s ease-in-out infinite">
-          <g transform="translate(530,234)">
-            <circle r="10" fill="rgba(59,158,232,0.15)" stroke="rgba(59,158,232,0.4)" stroke-width="1"/>
-            <text x="0" y="4" font-size="10" text-anchor="middle" fill="#3B9EE8">▲</text>
+          <!-- grid lines -->
+          <g stroke="rgba(59,158,232,0.06)" stroke-width="0.5">
+            <line x1="0" y1="130" x2="1100" y2="130" />
+            <line x1="0" y1="260" x2="1100" y2="260" />
+            <line x1="0" y1="390" x2="1100" y2="390" />
+            <line x1="220" y1="0" x2="220" y2="520" />
+            <line x1="440" y1="0" x2="440" y2="520" />
+            <line x1="660" y1="0" x2="660" y2="520" />
+            <line x1="880" y1="0" x2="880" y2="520" />
           </g>
-        </g>
 
-        <!-- waypoint labels -->
-        <g font-family="Inter,sans-serif" fill="#9DD0F0">
-          <rect x="175" y="325" width="90" height="22" rx="4" fill="rgba(5,16,31,0.85)" stroke="rgba(59,158,232,0.2)" stroke-width="0.5"/>
-          <text x="220" y="340" font-size="10" text-anchor="middle" fill="#9DD0F0">🚢 Santos, BR</text>
+          <!-- continents simplified -->
+          <!-- South America -->
+          <path
+            d="M180 90 Q200 80 215 95 Q230 140 225 200 Q220 260 210 300 Q200 340 190 350 Q175 360 165 340 Q155 310 158 270 Q160 230 155 180 Q152 140 165 110 Z"
+            fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+          <!-- North America west coast -->
+          <path
+            d="M60 60 Q90 50 120 70 Q150 90 160 130 Q165 160 155 180 Q145 175 130 160 Q100 140 75 120 Q50 100 60 60 Z"
+            fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+          <!-- Europe/Africa -->
+          <path
+            d="M520 60 Q545 55 555 80 Q560 110 550 150 Q545 180 540 200 Q535 230 530 260 Q525 300 520 340 Q510 370 500 380 Q490 370 488 340 Q485 300 490 260 Q495 220 500 180 Q505 140 510 110 Q514 80 520 60 Z"
+            fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+          <!-- Africa lower -->
+          <path d="M500 380 Q510 400 515 430 Q512 460 505 470 Q495 465 488 440 Q484 410 490 380 Z" fill="#0d2040"
+            stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+          <!-- Asia/Europe right -->
+          <path
+            d="M660 40 Q750 35 820 55 Q880 70 920 90 Q950 110 940 140 Q920 150 880 145 Q840 140 800 130 Q760 120 720 110 Q680 100 660 80 Z"
+            fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+          <!-- Australia -->
+          <path
+            d="M840 300 Q880 285 920 295 Q950 310 955 340 Q950 370 930 385 Q900 395 870 385 Q840 370 830 345 Q825 320 840 300 Z"
+            fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
 
-          <rect x="800" y="240" width="90" height="22" rx="4" fill="rgba(5,16,31,0.85)" stroke="rgba(59,158,232,0.2)" stroke-width="0.5"/>
-          <text x="845" y="255" font-size="10" text-anchor="middle" fill="#4be38a">⚓ Roterdã, EU</text>
-        </g>
+          <!-- OCEAN CURRENTS — animated dashes -->
+          <!-- Gulf Stream -->
+          <path d="M 180 200 Q 250 180 330 160 Q 420 140 500 150 Q 580 160 640 180" fill="none" stroke="#1361B5"
+            stroke-width="2" stroke-dasharray="12 8" opacity="0.5">
+            <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="3s" repeatCount="indefinite" />
+          </path>
+          <!-- South Atlantic current -->
+          <path d="M 210 320 Q 300 340 390 330 Q 460 320 510 340" fill="none" stroke="#0e4a8a" stroke-width="1.5"
+            stroke-dasharray="10 8" opacity="0.4">
+            <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="4s" repeatCount="indefinite" />
+          </path>
+          <!-- North Pacific -->
+          <path d="M 700 200 Q 780 180 860 190 Q 940 200 1000 220 Q 1060 240 1090 270" fill="none" stroke="#1361B5"
+            stroke-width="2" stroke-dasharray="12 8" opacity="0.45">
+            <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="3.5s" repeatCount="indefinite" />
+          </path>
+          <!-- Indian Ocean -->
+          <path d="M 620 360 Q 680 340 750 350 Q 820 360 860 345" fill="none" stroke="#0e4a8a" stroke-width="1.5"
+            stroke-dasharray="10 6" opacity="0.4">
+            <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="4.5s" repeatCount="indefinite" />
+          </path>
+          <!-- Equatorial -->
+          <path d="M 250 265 Q 350 255 450 262 Q 560 270 660 262 Q 760 255 880 262" fill="none" stroke="#3B9EE8"
+            stroke-width="1" stroke-dasharray="8 10" opacity="0.25">
+            <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="6s" repeatCount="indefinite" />
+          </path>
 
-        <!-- legend -->
-        <g transform="translate(30,440)">
-          <rect width="280" height="55" rx="8" fill="rgba(5,16,31,0.85)" stroke="rgba(59,158,232,0.15)" stroke-width="0.5"/>
-          <text x="12" y="18" font-size="9" fill="rgba(157,208,240,0.45)" font-family="Inter,sans-serif" letter-spacing="1">LEGENDA</text>
-          <line x1="12" y1="28" x2="36" y2="28" stroke="#3B9EE8" stroke-width="2" stroke-dasharray="5 3"/>
-          <text x="42" y="32" font-size="10" fill="#9DD0F0" font-family="Inter,sans-serif">Rota MareSat (otimizada)</text>
-          <line x1="12" y1="44" x2="36" y2="44" stroke="#1361B5" stroke-width="1.5" stroke-dasharray="8 5"/>
-          <text x="42" y="48" font-size="10" fill="rgba(157,208,240,0.55)" font-family="Inter,sans-serif">Correntes oceânicas</text>
-        </g>
+          <!-- OPTIMIZED ROUTE — glowing line -->
+          <path id="route" d="M 215 310 Q 290 295 370 270 Q 450 248 530 238 Q 610 228 700 235 Q 780 242 840 260"
+            fill="none" stroke="#3B9EE8" stroke-width="2.5" stroke-dasharray="6 4" filter="url(#glow-blue)"
+            opacity="0.9">
+            <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="2s" repeatCount="indefinite" />
+          </path>
+          <!-- route dots -->
+          <circle cx="215" cy="310" r="5" fill="#3B9EE8" opacity="0.9">
+            <animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="840" cy="260" r="5" fill="#4be38a" opacity="0.9">
+            <animate attributeName="r" values="5;8;5" dur="2s" begin="0.5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" begin="0.5s" repeatCount="indefinite" />
+          </circle>
 
-        <!-- savings badge -->
-        <g transform="translate(420,150)">
-          <rect width="145" height="44" rx="8" fill="rgba(75,227,138,0.1)" stroke="rgba(75,227,138,0.25)" stroke-width="0.5"/>
-          <text x="72" y="17" font-size="9" fill="rgba(75,227,138,0.65)" text-anchor="middle" font-family="Inter,sans-serif" letter-spacing="1">ECONOMIA ESTIMADA</text>
-          <text x="72" y="34" font-size="14" fill="#4be38a" text-anchor="middle" font-family="Syne,sans-serif" font-weight="700">↓ 32% CO₂  ↓ 29% Fuel</text>
-        </g>
-      </svg>
-      <div class="map-overlay">
-        <div class="ov-title">Painel da rota</div>
-        <div class="ov-row"><span class="ov-key">Origem</span><span class="ov-val">Santos, BR</span></div>
-        <div class="ov-row"><span class="ov-key">Destino</span><span class="ov-val">Roterdã, EU</span></div>
-        <div class="ov-row"><span class="ov-key">Corrente</span><span class="ov-val good">Favorável</span></div>
-        <div class="ov-row"><span class="ov-key">Vento</span><span class="ov-val warn">14 nós SO</span></div>
-        <div class="ov-row"><span class="ov-key">Economia</span><span class="ov-val good">−29% fuel</span></div>
-        <div class="ov-row"><span class="ov-key">CO₂ evitado</span><span class="ov-val good">−32%</span></div>
+          <!-- ship icon (simplified triangle) -->
+          <g style="animation:ship-move 4s ease-in-out infinite">
+            <g transform="translate(530,234)">
+              <circle r="10" fill="rgba(59,158,232,0.15)" stroke="rgba(59,158,232,0.4)" stroke-width="1" />
+              <text x="0" y="4" font-size="10" text-anchor="middle" fill="#3B9EE8">▲</text>
+            </g>
+          </g>
+
+          <!-- waypoint labels -->
+          <g font-family="Inter,sans-serif" fill="#9DD0F0">
+            <rect x="175" y="325" width="90" height="22" rx="4" fill="rgba(5,16,31,0.85)" stroke="rgba(59,158,232,0.2)"
+              stroke-width="0.5" />
+            <text x="220" y="340" font-size="10" text-anchor="middle" fill="#9DD0F0">🚢 Santos, BR</text>
+
+            <rect x="800" y="240" width="90" height="22" rx="4" fill="rgba(5,16,31,0.85)" stroke="rgba(59,158,232,0.2)"
+              stroke-width="0.5" />
+            <text x="845" y="255" font-size="10" text-anchor="middle" fill="#4be38a">⚓ Roterdã, EU</text>
+          </g>
+
+          <!-- legend -->
+          <g transform="translate(30,440)">
+            <rect width="280" height="55" rx="8" fill="rgba(5,16,31,0.85)" stroke="rgba(59,158,232,0.15)"
+              stroke-width="0.5" />
+            <text x="12" y="18" font-size="9" fill="rgba(157,208,240,0.45)" font-family="Inter,sans-serif"
+              letter-spacing="1">LEGENDA</text>
+            <line x1="12" y1="28" x2="36" y2="28" stroke="#3B9EE8" stroke-width="2" stroke-dasharray="5 3" />
+            <text x="42" y="32" font-size="10" fill="#9DD0F0" font-family="Inter,sans-serif">Rota MareSat
+              (otimizada)</text>
+            <line x1="12" y1="44" x2="36" y2="44" stroke="#1361B5" stroke-width="1.5" stroke-dasharray="8 5" />
+            <text x="42" y="48" font-size="10" fill="rgba(157,208,240,0.55)" font-family="Inter,sans-serif">Correntes
+              oceânicas</text>
+          </g>
+
+          <!-- savings badge -->
+          <g transform="translate(420,150)">
+            <rect width="145" height="44" rx="8" fill="rgba(75,227,138,0.1)" stroke="rgba(75,227,138,0.25)"
+              stroke-width="0.5" />
+            <text x="72" y="17" font-size="9" fill="rgba(75,227,138,0.65)" text-anchor="middle"
+              font-family="Inter,sans-serif" letter-spacing="1">ECONOMIA ESTIMADA</text>
+            <text x="72" y="34" font-size="14" fill="#4be38a" text-anchor="middle" font-family="Syne,sans-serif"
+              font-weight="700">↓ 32% CO₂ ↓ 29% Fuel</text>
+          </g>
+        </svg>
+        <div class="map-overlay">
+          <div class="ov-title">Painel da rota</div>
+          <div class="ov-row"><span class="ov-key">Origem</span><span class="ov-val">Santos, BR</span></div>
+          <div class="ov-row"><span class="ov-key">Destino</span><span class="ov-val">Roterdã, EU</span></div>
+          <div class="ov-row"><span class="ov-key">Corrente</span><span class="ov-val good">Favorável</span></div>
+          <div class="ov-row"><span class="ov-key">Vento</span><span class="ov-val warn">14 nós SO</span></div>
+          <div class="ov-row"><span class="ov-key">Economia</span><span class="ov-val good">−29% fuel</span></div>
+          <div class="ov-row"><span class="ov-key">CO₂ evitado</span><span class="ov-val good">−32%</span></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- MODES -->
-<section class="modes" id="modos">
-  <div class="sec-inner">
-    <div class="modes-head">
-      <div class="kicker">Plataformas</div>
-      <h2 class="sec-h">Dois modos, uma missão</h2>
-    </div>
-    <div class="cards">
-      <a href="ocean.html" class="card card-ocean">
-        <span class="card-tag">Ocean Mode</span>
-        <h3 class="card-title">Rotas transoceânicas</h3>
-        <p class="card-desc">Para navios de carga e embarcações de longo curso. Painel completo com dados de correntes, vento, consumo e cálculo de rota em tempo real.</p>
-        <ul class="card-list">
-          <li>Mapa interativo de rotas oceânicas</li>
-          <li>Análise de corrente, vento e CO₂</li>
-          <li>Calculadora de rota funcional (JS)</li>
-          <li>Cards de dados fictícios realistas</li>
-        </ul>
-        <span class="card-cta">Acessar plataforma <span class="cta-circle">→</span></span>
-      </a>
-      <a href="coastal.html" class="card card-coastal">
-        <span class="card-tag">Coastal Mode</span>
-        <h3 class="card-title">Navegação costeira</h3>
-        <p class="card-desc">Para pescadores artesanais e embarcações costeiras. Interface simples com zonas de pesca favoráveis e alertas climáticos de segurança.</p>
-        <ul class="card-list">
-          <li>Mapa costeiro com zonas de pesca</li>
-          <li>Alertas de vento e condições do mar</li>
-          <li>Interface acessível e simplificada</li>
-          <li>Banner de alertas de segurança</li>
-        </ul>
-        <span class="card-cta">Acessar plataforma <span class="cta-circle">→</span></span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- CO2 COUNTER -->
-<section class="counter-section">
-  <div class="counter-inner">
-    <div class="counter-label">Impacto estimado anual com MareSat</div>
-    <div class="counter-number" id="counterNum">0<span>t</span></div>
-    <div class="counter-sub">toneladas de CO₂ evitadas por navio/ano</div>
-    <div class="counter-badges">
-      <div class="badge"><span class="badge-dot bdot-green"></span> Emissões reduzidas</div>
-      <div class="badge"><span class="badge-dot bdot-yellow"></span> Combustível economizado</div>
-      <div class="badge"><span class="badge-dot bdot-blue"></span> Correntes aproveitadas</div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="f-logo">MareSat<sup>®</sup></div>
-      <p class="f-tagline">Navegação inteligente por correntes oceânicas</p>
-      <div class="f-team-label">Integrantes do grupo</div>
-      <div class="f-team">
-        <span>Pietro de Nadai Fernandes de Andrade</span>
-        <span>Lucas Nunes Nogueira</span>
-        <span>Gabriel Navarro Rosal</span>
-        <span>Erick Henrique Miranda Izidoro</span>
-        <span>João Victor Silva de Paula Cesar</span>
+  <!-- MODES -->
+  <section class="modes" id="modos">
+    <div class="sec-inner">
+      <div class="modes-head">
+        <div class="kicker">Plataformas</div>
+        <h2 class="sec-h">Dois modos, uma missão</h2>
+      </div>
+      <div class="cards">
+        <a href="ocean.html" class="card card-ocean">
+          <span class="card-tag">Ocean Mode</span>
+          <h3 class="card-title">Rotas transoceânicas</h3>
+          <p class="card-desc">Para navios de carga e embarcações de longo curso. Painel completo com dados de
+            correntes, vento, consumo e cálculo de rota em tempo real.</p>
+          <ul class="card-list">
+            <li>Mapa interativo de rotas oceânicas</li>
+            <li>Análise de corrente, vento e CO₂</li>
+            <li>Calculadora de rota funcional (JS)</li>
+            <li>Cards de dados fictícios realistas</li>
+          </ul>
+          <span class="card-cta">Acessar plataforma <span class="cta-circle">→</span></span>
+        </a>
+        <a href="coastal.html" class="card card-coastal">
+          <span class="card-tag">Coastal Mode</span>
+          <h3 class="card-title">Navegação costeira</h3>
+          <p class="card-desc">Para pescadores artesanais e embarcações costeiras. Interface simples com zonas de pesca
+            favoráveis e alertas climáticos de segurança.</p>
+          <ul class="card-list">
+            <li>Mapa costeiro com zonas de pesca</li>
+            <li>Alertas de vento e condições do mar</li>
+            <li>Interface acessível e simplificada</li>
+            <li>Banner de alertas de segurança</li>
+          </ul>
+          <span class="card-cta">Acessar plataforma <span class="cta-circle">→</span></span>
+        </a>
       </div>
     </div>
-    <div class="f-right">
-      <div class="f-badge">FIAP · Global Solution 2026/1</div>
-      <p class="f-delivery">Entrega: 09/06/2026</p>
+  </section>
+
+  <!-- CO2 COUNTER -->
+  <section class="counter-section">
+    <div class="counter-inner">
+      <div class="counter-label">Impacto estimado anual com MareSat</div>
+      <div class="counter-number" id="counterNum">0<span>t</span></div>
+      <div class="counter-sub">toneladas de CO₂ evitadas por navio/ano</div>
+      <div class="counter-badges">
+        <div class="badge"><span class="badge-dot bdot-green"></span> Emissões reduzidas</div>
+        <div class="badge"><span class="badge-dot bdot-yellow"></span> Combustível economizado</div>
+        <div class="badge"><span class="badge-dot bdot-blue"></span> Correntes aproveitadas</div>
+      </div>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <p>MareSat · Protótipo Acadêmico · Todos os direitos reservados</p>
-    <p>Desenvolvido com 🌊 pelo grupo</p>
-  </div>
-</footer>
+  </section>
 
-<script>
-  // ── HERO CANVAS — animated particles ──
-  const canvas = document.getElementById('heroCanvas');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="f-logo">MareSat<sup>®</sup></div>
+        <p class="f-tagline">Navegação inteligente por correntes oceânicas</p>
+        <div class="f-team-label">Integrantes do grupo</div>
+        <div class="f-team">
+          <span>Pietro de Nadai Fernandes de Andrade</span>
+          <span>Lucas Nunes Nogueira</span>
+          <span>Gabriel Navarro Rosal</span>
+          <span>Erick Henrique Miranda Izidoro</span>
+          <span>João Victor Silva de Paula Cesar</span>
+        </div>
+      </div>
+      <div class="f-right">
+        <div class="f-badge">FIAP · Global Solution 2026/1</div>
+        <p class="f-delivery">Entrega: 09/06/2026</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>MareSat · Protótipo Acadêmico · Todos os direitos reservados</p>
+      <p>Desenvolvido com 🌊 pelo grupo</p>
+    </div>
+  </footer>
 
-  function resize() {
-    W = canvas.width = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
+  <script>
+    // ── HERO CANVAS — animated particles ──
+    const canvas = document.getElementById('heroCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
 
-  function mkParticle() {
-    return {
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.5 + 0.3,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      alpha: Math.random() * 0.5 + 0.1
-    };
-  }
+    function resize() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
 
-  for (let i = 0; i < 90; i++) particles.push(mkParticle());
+    function mkParticle() {
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.5 + 0.3,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        alpha: Math.random() * 0.5 + 0.1
+      };
+    }
 
-  function animCanvas() {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(59,158,232,${p.alpha})`;
-      ctx.fill();
-    });
-    // draw connections
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 90) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(59,158,232,${0.07 * (1 - dist/90)})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
+    for (let i = 0; i < 90; i++) particles.push(mkParticle());
+
+    function animCanvas() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(59,158,232,${p.alpha})`;
+        ctx.fill();
+      });
+      // draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 90) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(59,158,232,${0.07 * (1 - dist / 90)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
         }
       }
+      requestAnimationFrame(animCanvas);
     }
-    requestAnimationFrame(animCanvas);
-  }
-  animCanvas();
+    animCanvas();
 
-  // ── BAR CHART ANIMATION on scroll ──
-  const bars = document.querySelectorAll('.bar-fill');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        bars.forEach(b => {
-          b.style.width = b.dataset.width + '%';
-        });
-        obs.disconnect();
-      }
-    });
-  }, { threshold: 0.3 });
-  const impactSec = document.querySelector('.impact-visual');
-  if (impactSec) obs.observe(impactSec);
+    // ── BAR CHART ANIMATION on scroll ──
+    const bars = document.querySelectorAll('.bar-fill');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          bars.forEach(b => {
+            b.style.width = b.dataset.width + '%';
+          });
+          obs.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    const impactSec = document.querySelector('.impact-visual');
+    if (impactSec) obs.observe(impactSec);
 
-  // ── CO2 COUNTER ──
-  const counterEl = document.getElementById('counterNum');
-  let counted = false;
-  const counterObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting && !counted) {
-        counted = true;
-        let val = 0;
-        const target = 2400;
-        const step = Math.ceil(target / 80);
-        const timer = setInterval(() => {
-          val = Math.min(val + step, target);
-          counterEl.innerHTML = val.toLocaleString('pt-BR') + '<span>t</span>';
-          if (val >= target) clearInterval(timer);
-        }, 20);
-      }
-    });
-  }, { threshold: 0.5 });
-  counterObs.observe(counterEl);
+    // ── CO2 COUNTER ──
+    const counterEl = document.getElementById('counterNum');
+    let counted = false;
+    const counterObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !counted) {
+          counted = true;
+          let val = 0;
+          const target = 2400;
+          const step = Math.ceil(target / 80);
+          const timer = setInterval(() => {
+            val = Math.min(val + step, target);
+            counterEl.innerHTML = val.toLocaleString('pt-BR') + '<span>t</span>';
+            if (val >= target) clearInterval(timer);
+          }, 20);
+        }
+      });
+    }, { threshold: 0.5 });
+    counterObs.observe(counterEl);
 
-  // ── SCROLL REVEAL ──
-  const revealEls = document.querySelectorAll('.step, .card, .stat');
-  const revObs = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'translateY(0)';
-        }, 80 * i);
-        revObs.unobserve(e.target);
-      }
+    // ── SCROLL REVEAL ──
+    const revealEls = document.querySelectorAll('.step, .card, .stat');
+    const revObs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'translateY(0)';
+          }, 80 * i);
+          revObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity .6s ease, transform .6s ease';
+      revObs.observe(el);
     });
-  }, { threshold: 0.1 });
-  revealEls.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity .6s ease, transform .6s ease';
-    revObs.observe(el);
-  });
-</script>
+  </script>
 
 </body>
+
 </html>
