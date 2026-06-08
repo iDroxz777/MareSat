@@ -1,12 +1,13 @@
 document.getElementById('calculateRoute').addEventListener('click', function () {
-    const origem = document.getElementById('origin').value;
-    const destino = document.getElementById('destination').value;
+    const origem = document.getElementById('origin').value.trim();
+    const destino = document.getElementById('destination').value.trim();
 
     if (!origem || !destino) {
         alert('Preencha origem e destino!');
         return;
     }
 
+    // Dados simulados para o protótipo da Global Solution.
     const dados = {
         corrente: (Math.random() * 3 + 1).toFixed(1),
         direcaoCorrente: ['NO > SE', 'NE > SW', 'SO > NE', 'SE > NO'][Math.floor(Math.random() * 4)],
