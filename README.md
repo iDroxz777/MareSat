@@ -1,1 +1,2 @@
-0000000000000000000000000000000000000000 1df6fff7bc5e654d19d029eef0d6a09ce96b29f3 Erick Henrique <127148677+Erickito30@users.noreply.github.com> 1780813069 -0300	commit (initial): Initial commit
+# MareSat
+Protótipo web do MareSat — sistema de navegação inteligente por correntes oceânicas. Projeto Global Solution 2026 | FIAP
