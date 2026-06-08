@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MareSat - Coastal Mode</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="d-flex flex-column">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="img/maresat_logo.svg" alt="MareSat Logo" height="150" class="d-inline-block align-text-top">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+        aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="ocean.html">Ocean</a></li>
+          <li class="nav-item"><a class="nav-link active" href="coastal.html">Coastal</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="sec-inner">
+      <div class="eyebrow"><span class="dot"></span> Coastal Mode · Segurança Pesqueira</div>
+      <h1 class="section-heading">Navegação costeira com foco em pesca e segurança</h1>
+      <p class="hero-sub">Rota suave para embarcações pequenas e pescadores artesanais com alertas de vento, marés e zonas seguras.</p>
+      <div class="btn-group">
+        <a href="ocean.html" class="btn btn-fill">🌊 Ocean Mode</a>
+        <a href="index.html" class="btn btn-ghost">🏠 Voltar à home</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="how">
+    <div class="how-head">
+      <div class="kicker">Modo Costeiro</div>
+      <h2 class="sec-h">Mapas e alertas para quem navega perto da costa</h2>
+      <p class="sec-p">Informações essenciais de vento, correntes e áreas de pesca ideais para embarcações de pequeno porte.</p>
+    </div>
+
+    <div class="coastal-panel">
+      <div class="coastal-card">
+        <h3>Zonas de pesca favoráveis</h3>
+        <p>Mapeamento de áreas costeiras com maior produtividade e correntes calmas para operações pesqueiras seguras.</p>
+      </div>
+      <div class="coastal-card">
+        <h3>Alertas meteorológicos</h3>
+        <p>Notificações de vento forte, chuva e formação de ondas para evitar rotas perigosas próximas ao litoral.</p>
+      </div>
+      <div class="coastal-card">
+        <h3>Rota costeira otimizada</h3>
+        <p>Recomendações de velocidade e trajetórias que aproveitam correntes suaves e minimizam o consumo de combustível.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mapblock">
+    <div class="map-inner">
+      <div class="map-head">
+        <div class="kicker">Visualização</div>
+        <h2 class="sec-h">Painel costeiro simplificado</h2>
+      </div>
+      <div class="map-wrap">
+        <iframe
+          src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=kt&zoom=7&overlay=wind&lat=-23.5&lon=-46.6"
+          style="width:100%; height:520px; border:none;"
+          allowfullscreen>
+        </iframe>
+        <div class="map-overlay">
+          <div class="ov-title">Resumo costeiro</div>
+          <div class="ov-row"><span class="ov-key">Área</span><span class="ov-val">Baía de Santos</span></div>
+          <div class="ov-row"><span class="ov-key">Vento</span><span class="ov-val warn">18 nós NE</span></div>
+          <div class="ov-row"><span class="ov-key">Maré</span><span class="ov-val">Alta</span></div>
+          <div class="ov-row"><span class="ov-key">Segurança</span><span class="ov-val good">Favorável</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="f-logo">MareSat<sup>®</sup></div>
+        <p class="f-tagline">Navegação inteligente por correntes oceânicas</p>
+        <div class="f-team-label">Integrantes do grupo</div>
+        <div class="f-team">
+          <span>Pietro de Nadai Fernandes de Andrade</span>
+          <span>Lucas Nunes Nogueira</span>
+          <span>Gabriel Navarro Rosal</span>
+          <span>Erick Henrique Miranda Izidoro</span>
+          <span>João Victor Silva de Paula Cesar</span>
+        </div>
+      </div>
+      <div class="f-right">
+        <div class="f-badge">FIAP · Global Solution 2026/1</div>
+        <p class="f-delivery">Entrega: 09/06/2026</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>MareSat · Protótipo Acadêmico · Todos os direitos reservados</p>
+      <p>Desenvolvido com 🌊 pelo grupo</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
