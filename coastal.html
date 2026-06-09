@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MareSat - Coastal Mode</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!-- Menu principal -->
+  <nav aria-label="Navegação principal">
+    <a href="index.html" class="logo">
+      <img src="img/maresat_logo.svg" alt="MareSat Logo" height="150">
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="ocean.html">Ocean Mode</a>
+      <a href="coastal.html" class="active" aria-current="page">Coastal Mode</a>
+    </div>
+  </nav>
+
+  <section class="page-hero coastal-hero">
+    <div class="sec-inner">
+      <div class="eyebrow"><span class="dot"></span> Coastal Mode · Segurança Pesqueira</div>
+      <h1 class="section-heading">Navegação costeira com foco em pesca e segurança</h1>
+      <p class="hero-sub">Rota simples para embarcações pequenas e pescadores artesanais, com alertas de vento, maré e zonas favoráveis.</p>
+      <div class="btn-group">
+        <a href="#zonas" class="btn btn-fill">Ver zonas</a>
+        <a href="#alerta" class="btn btn-ghost">Checar alerta</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="alert-section" id="alerta">
+    <div class="sec-inner">
+      <div class="safety-alert" aria-live="polite">
+        <div>
+          <div class="kicker">Alerta de segurança</div>
+          <h2 id="alert-title">Ventos fortes no fim da tarde</h2>
+          <p id="alert-text">Recomendação: sair cedo e retornar antes das 15h. Rajadas acima de 24 nós podem dificultar a navegação de barcos menores.</p>
+        </div>
+        <span class="alert-level" id="alert-level">Atenção</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="how">
+    <div class="how-head">
+      <div class="kicker">Modo Costeiro</div>
+      <h2 class="sec-h">Informação rápida para quem navega perto da costa</h2>
+      <p class="sec-p">O painel foi pensado para leitura simples: zona de pesca, condição do mar e cuidado principal antes da saída.</p>
+    </div>
+
+    <div class="coastal-panel">
+      <div class="coastal-card">
+        <h3>Zona recomendada</h3>
+        <p id="summary-zone">Enseada Clara: mar mais abrigado e boa atividade de peixes no começo da manhã.</p>
+      </div>
+      <div class="coastal-card">
+        <h3>Melhor horário</h3>
+        <p id="summary-time">05h30 até 09h00, antes do vento aumentar no período da tarde.</p>
+      </div>
+      <div class="coastal-card">
+        <h3>Condição do mar</h3>
+        <p id="summary-sea">Ondas de 0,8 m e maré subindo. Cenário favorável para embarcação pequena.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mapblock">
+    <div class="map-inner">
+      <div class="map-head">
+        <div class="kicker">Visualização</div>
+        <h2 class="sec-h">Mapa costeiro simplificado</h2>
+      </div>
+      <div class="map-wrap coastal-map-wrap">
+        <svg class="coastal-map" viewBox="0 0 960 520" role="img" aria-labelledby="coastalMapTitle coastalMapDesc">
+          <title id="coastalMapTitle">Mapa costeiro do Coastal Mode</title>
+          <desc id="coastalMapDesc">Mapa com costa, porto base, rota de saída e quatro zonas de pesca.</desc>
+          <rect width="960" height="520" fill="#07182d" />
+          <path d="M0 0H325C300 65 325 130 285 205C245 275 292 338 245 420C220 462 220 492 236 520H0Z" fill="#123a4f" />
+          <path d="M292 0C268 68 296 130 255 202C216 270 252 338 210 415C186 457 190 492 205 520" fill="none" stroke="#9DD0F0" stroke-width="4" />
+
+          <g stroke="#1361B5" stroke-width="2" stroke-dasharray="10 9" opacity="0.55">
+            <path d="M345 120C470 90 575 115 735 78" />
+            <path d="M330 260C470 220 610 235 820 190" />
+            <path d="M320 400C480 358 630 375 855 335" />
+          </g>
+
+          <path d="M282 315C385 290 475 270 565 258C650 246 710 255 792 230" fill="none" stroke="#3B9EE8" stroke-width="4" stroke-linecap="round" />
+
+          <g class="map-zone active" data-zone="enseada">
+            <circle cx="520" cy="285" r="58" />
+            <text x="520" y="290">Enseada Clara</text>
+          </g>
+          <g class="map-zone" data-zone="norte">
+            <circle cx="410" cy="145" r="48" />
+            <text x="410" y="150">Ponta Norte</text>
+          </g>
+          <g class="map-zone" data-zone="banco">
+            <circle cx="710" cy="185" r="50" />
+            <text x="710" y="190">Banco Azul</text>
+          </g>
+          <g class="map-zone warning" data-zone="canal">
+            <circle cx="700" cy="370" r="60" />
+            <text x="700" y="375">Canal Sul</text>
+          </g>
+
+          <g class="map-label">
+            <rect x="175" y="296" width="120" height="36" rx="8" />
+            <text x="235" y="319">Porto base</text>
+          </g>
+        </svg>
+        <div class="map-overlay">
+          <div class="ov-title">Resumo costeiro</div>
+          <div class="ov-row"><span class="ov-key">Área</span><span class="ov-val" id="panel-area">Enseada Clara</span></div>
+          <div class="ov-row"><span class="ov-key">Vento</span><span class="ov-val warn" id="panel-wind">9 nós L</span></div>
+          <div class="ov-row"><span class="ov-key">Ondas</span><span class="ov-val" id="panel-wave">0,8 m</span></div>
+          <div class="ov-row"><span class="ov-key">Segurança</span><span class="ov-val good" id="panel-safe">Favorável</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modes" id="zonas">
+    <div class="sec-inner">
+      <div class="modes-head">
+        <div class="kicker">Zonas de pesca</div>
+        <h2 class="sec-h">Áreas favoráveis para hoje</h2>
+      </div>
+      <div class="zone-grid">
+        <button class="zone-card active" type="button" data-zone="enseada" aria-pressed="true">
+          <span class="zone-tag good">Favorável</span>
+          <h3>Enseada Clara</h3>
+          <p>Mar abrigado, corrente fraca e melhor chance de pesca logo cedo.</p>
+          <small>05h30 - 09h00 · ondas 0,8 m</small>
+        </button>
+        <button class="zone-card" type="button" data-zone="norte" aria-pressed="false">
+          <span class="zone-tag good">Boa opção</span>
+          <h3>Ponta Norte</h3>
+          <p>Boa visibilidade e rota curta, indicada para uma saída rápida.</p>
+          <small>06h00 - 10h30 · ondas 1,0 m</small>
+        </button>
+        <button class="zone-card" type="button" data-zone="banco" aria-pressed="false">
+          <span class="zone-tag neutral">Monitorar</span>
+          <h3>Banco Azul</h3>
+          <p>Boa área de pesca, mas o vento começa a mudar perto do meio-dia.</p>
+          <small>07h00 - 11h00 · ondas 1,3 m</small>
+        </button>
+        <button class="zone-card" type="button" data-zone="canal" aria-pressed="false">
+          <span class="zone-tag alert">Evitar tarde</span>
+          <h3>Canal Sul</h3>
+          <p>Área mais aberta, com rajadas fortes depois das 14h.</p>
+          <small>Somente cedo · ondas 1,9 m</small>
+        </button>
+      </div>
+      <p class="coastal-note" id="coastal-note">Recomendação: priorizar a Enseada Clara e retornar antes do vento ganhar força.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="f-logo">MareSat<sup>®</sup></div>
+        <p class="f-tagline">Navegação inteligente por correntes oceânicas</p>
+        <div class="f-team-label">Integrantes do grupo</div>
+        <div class="f-team">
+          <span>Pietro de Nadai Fernandes de Andrade</span>
+          <span>Lucas Nunes Nogueira</span>
+          <span>Gabriel Navarro Rosal</span>
+          <span>Erick Henrique Miranda Izidoro</span>
+          <span>João Victor Silva de Paula Cesar</span>
+        </div>
+      </div>
+      <div class="f-right">
+        <div class="f-badge">FIAP · Global Solution 2026/1</div>
+        <p class="f-delivery">Entrega: 09/06/2026</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>MareSat · Protótipo Acadêmico · Todos os direitos reservados</p>
+      <p>Desenvolvido pelo grupo</p>
+    </div>
+  </footer>
+
+  <script src="js/coastal.js"></script>
+</body>
+
+</html>

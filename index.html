@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MareSat — Navegação Inteligente por Correntes Oceânicas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- Menu principal -->
+  <nav aria-label="Navegação principal">
+    <a href="index.html" class="logo">
+      <img src="img/maresat_logo.svg" alt="MareSat Logo" height="150">
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active" aria-current="page">Home</a>
+      <a href="ocean.html">Ocean Mode</a>
+      <a href="coastal.html">Coastal Mode</a>
+    </div>
+  </nav>
+
+  <!-- Apresentação do projeto -->
+  <section class="hero">
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <div class="hero-glow"></div>
+
+    <div class="eyebrow"><span class="dot"></span> Global Solution 2026 · FIAP</div>
+
+    <h1>O oceano é a rota.<br /><span class="grad">O MareSat é o caminho.</span></h1>
+
+    <p class="hero-sub">
+      Satélites analisam correntes oceânicas em tempo real para otimizar rotas
+      marítimas — reduzindo combustível, custo e emissões de CO₂.
+    </p>
+
+    <div class="hero-btns">
+      <a href="ocean.html" class="btn btn-fill">Abrir Ocean Mode</a>
+      <a href="coastal.html" class="btn btn-ghost">Abrir Coastal Mode</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-v">30<span>%</span></div>
+        <div class="stat-l">menos combustível</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat">
+        <div class="stat-v">24<span>h</span></div>
+        <div class="stat-l">dados em tempo real</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat">
+        <div class="stat-v">360<span>°</span></div>
+        <div class="stat-l">cobertura oceânica</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat">
+        <div class="stat-v">2<span>x</span></div>
+        <div class="stat-l">modos de operação</div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-bar"></div>rolar
+    </div>
+  </section>
+
+  <!-- Problema e impacto -->
+  <section class="impact" id="problema">
+    <div class="sec-inner">
+      <div class="impact-grid">
+        <div class="impact-text">
+          <div class="kicker">O Problema</div>
+          <h2 class="sec-h">Navios queimam combustível desnecessário todo dia</h2>
+          <p class="sec-p">
+            O transporte marítimo é responsável por cerca de <strong style="color:var(--white);font-weight:500">3% das
+              emissões globais de CO₂</strong>.
+            Rotas sem otimização desperdiçam milhões de litros de combustível por ano.
+            O MareSat usa correntes oceânicas como "vento nas velas" da era moderna.
+          </p>
+        </div>
+        <div class="impact-visual">
+          <div class="chart-title">Comparativo de emissões e consumo por rota</div>
+
+          <div class="bar-row">
+            <div class="bar-label"><span>Rota tradicional — CO₂</span><span style="color:#e05a3a">100%</span></div>
+            <div class="bar-track">
+              <div class="bar-fill bar-co2" data-width="100"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Rota tradicional — Combustível</span><span style="color:#e09a3a">100%</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill bar-combustivel" data-width="100"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Com MareSat — CO₂</span><span style="color:var(--bright)">68%</span></div>
+            <div class="bar-track">
+              <div class="bar-fill bar-mare" data-width="68"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Com MareSat — Combustível</span><span style="color:var(--bright)">70%</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill bar-mare" data-width="70"></div>
+            </div>
+          </div>
+
+          <p class="chart-note">* Simulação baseada em dados de rotas oceânicas otimizadas</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como funciona -->
+  <section class="how" id="como-funciona">
+    <div class="how-head">
+      <div class="kicker">Como funciona</div>
+      <h2 class="sec-h">Três etapas. Rota perfeita.</h2>
+      <p class="sec-p" style="margin-top:.75rem">Da coleta de dados via satélite até a rota otimizada entregue ao
+        capitão.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-icon">🛰️</div>
+        <h3>Coleta via satélite</h3>
+        <p>Sensores orbitais monitoram temperatura, velocidade e direção das correntes oceânicas com cobertura global e
+          contínua, 24 horas por dia.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-icon">⚙️</div>
+        <h3>Processamento inteligente</h3>
+        <p>Algoritmos cruzam dados de correntes, ventos e rotas históricas para calcular o caminho mais eficiente
+          energeticamente para cada embarcação.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-icon">📡</div>
+        <h3>Rota em tempo real</h3>
+        <p>O capitão recebe no painel a rota otimizada com estimativa de economia de combustível, redução de CO₂ e tempo
+          de chegada recalculado.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mapa demonstrativo -->
+  <section class="mapblock">
+    <div class="map-inner">
+      <div class="map-head">
+        <div class="kicker">Visualização</div>
+        <h2 class="sec-h">Rotas oceânicas em tempo real</h2>
+      </div>
+      <div class="map-wrap">
+        <svg class="map-svg" viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="mapbg" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#0a1e3d" />
+              <stop offset="100%" stop-color="#060e1c" />
+            </radialGradient>
+            <!-- current flow pattern -->
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M2 2L8 5L2 8" fill="none" stroke="#1361B5" stroke-width="1.5" stroke-linecap="round" />
+            </marker>
+            <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M2 2L8 5L2 8" fill="none" stroke="#3B9EE8" stroke-width="1.5" stroke-linecap="round" />
+            </marker>
+            <filter id="glow-blue">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- background -->
+          <rect width="1100" height="520" fill="url(#mapbg)" />
+
+          <!-- grid lines -->
+          <g stroke="rgba(59,158,232,0.06)" stroke-width="0.5">
+            <line x1="0" y1="130" x2="1100" y2="130" />
+            <line x1="0" y1="260" x2="1100" y2="260" />
+            <line x1="0" y1="390" x2="1100" y2="390" />
+            <line x1="220" y1="0" x2="220" y2="520" />
+            <line x1="440" y1="0" x2="440" y2="520" />
+            <line x1="660" y1="0" x2="660" y2="520" />
+            <line x1="880" y1="0" x2="880" y2="520" />
+          </g>
+
+          <!-- continents simplified -->
+          <!-- South America -->
+          <path
+            d="M180 90 Q200 80 215 95 Q230 140 225 200 Q220 260 210 300 Q200 340 190 350 Q175 360 165 340 Q155 310 158 270 Q160 230 155 180 Q152 140 165 110 Z"
+            fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+          <!-- North America west coast -->
+          <path
+            d="M60 60 Q90 50 120 70 Q150 90 160 130 Q165 160 155 180 Q145 175 130 160 Q100 140 75 120 Q50 100 60 60 Z"
+            fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+          <!-- Europe/Africa -->
+          <path
+            d="M520 60 Q545 55 555 80 Q560 110 550 150 Q545 180 540 200 Q535 230 530 260 Q525 300 520 340 Q510 370 500 380 Q490 370 488 340 Q485 300 490 260 Q495 220 500 180 Q505 140 510 110 Q514 80 520 60 Z"
+            fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+          <!-- Africa lower -->
+          <path d="M500 380 Q510 400 515 430 Q512 460 505 470 Q495 465 488 440 Q484 410 490 380 Z" fill="#0d2040"
+            stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+          <!-- Asia/Europe right -->
+          <path
+            d="M660 40 Q750 35 820 55 Q880 70 920 90 Q950 110 940 140 Q920 150 880 145 Q840 140 800 130 Q760 120 720 110 Q680 100 660 80 Z"
+            fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+          <!-- Australia -->
+          <path
+            d="M840 300 Q880 285 920 295 Q950 310 955 340 Q950 370 930 385 Q900 395 870 385 Q840 370 830 345 Q825 320 840 300 Z"
+            fill="#0d2040" stroke="rgba(59,158,232,0.15)" stroke-width="0.5" />
+
+          <!-- OCEAN CURRENTS — animated dashes -->
+          <!-- Gulf Stream -->
+          <path d="M 180 200 Q 250 180 330 160 Q 420 140 500 150 Q 580 160 640 180" fill="none" stroke="#1361B5"
+            stroke-width="2" stroke-dasharray="12 8" opacity="0.5">
+            <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="3s" repeatCount="indefinite" />
+          </path>
+          <!-- South Atlantic current -->
+          <path d="M 210 320 Q 300 340 390 330 Q 460 320 510 340" fill="none" stroke="#0e4a8a" stroke-width="1.5"
+            stroke-dasharray="10 8" opacity="0.4">
+            <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="4s" repeatCount="indefinite" />
+          </path>
+          <!-- North Pacific -->
+          <path d="M 700 200 Q 780 180 860 190 Q 940 200 1000 220 Q 1060 240 1090 270" fill="none" stroke="#1361B5"
+            stroke-width="2" stroke-dasharray="12 8" opacity="0.45">
+            <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="3.5s" repeatCount="indefinite" />
+          </path>
+          <!-- Indian Ocean -->
+          <path d="M 620 360 Q 680 340 750 350 Q 820 360 860 345" fill="none" stroke="#0e4a8a" stroke-width="1.5"
+            stroke-dasharray="10 6" opacity="0.4">
+            <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="4.5s" repeatCount="indefinite" />
+          </path>
+          <!-- Equatorial -->
+          <path d="M 250 265 Q 350 255 450 262 Q 560 270 660 262 Q 760 255 880 262" fill="none" stroke="#3B9EE8"
+            stroke-width="1" stroke-dasharray="8 10" opacity="0.25">
+            <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="6s" repeatCount="indefinite" />
+          </path>
+
+          <!-- OPTIMIZED ROUTE — glowing line -->
+          <path id="route" d="M 215 310 Q 290 295 370 270 Q 450 248 530 238 Q 610 228 700 235 Q 780 242 840 260"
+            fill="none" stroke="#3B9EE8" stroke-width="2.5" stroke-dasharray="6 4" filter="url(#glow-blue)"
+            opacity="0.9">
+            <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="2s" repeatCount="indefinite" />
+          </path>
+          <!-- route dots -->
+          <circle cx="215" cy="310" r="5" fill="#3B9EE8" opacity="0.9">
+            <animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="840" cy="260" r="5" fill="#4be38a" opacity="0.9">
+            <animate attributeName="r" values="5;8;5" dur="2s" begin="0.5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" begin="0.5s" repeatCount="indefinite" />
+          </circle>
+
+          <!-- ship icon (simplified triangle) -->
+          <g style="animation:ship-move 4s ease-in-out infinite">
+            <g transform="translate(530,234)">
+              <circle r="10" fill="rgba(59,158,232,0.15)" stroke="rgba(59,158,232,0.4)" stroke-width="1" />
+              <text x="0" y="4" font-size="10" text-anchor="middle" fill="#3B9EE8">▲</text>
+            </g>
+          </g>
+
+          <!-- waypoint labels -->
+          <g font-family="Inter,sans-serif" fill="#9DD0F0">
+            <rect x="175" y="325" width="90" height="22" rx="4" fill="rgba(5,16,31,0.85)" stroke="rgba(59,158,232,0.2)"
+              stroke-width="0.5" />
+            <text x="220" y="340" font-size="10" text-anchor="middle" fill="#9DD0F0">🚢 Santos, BR</text>
+
+            <rect x="800" y="240" width="90" height="22" rx="4" fill="rgba(5,16,31,0.85)" stroke="rgba(59,158,232,0.2)"
+              stroke-width="0.5" />
+            <text x="845" y="255" font-size="10" text-anchor="middle" fill="#4be38a">⚓ Roterdã, EU</text>
+          </g>
+
+          <!-- legend -->
+          <g transform="translate(30,440)">
+            <rect width="280" height="55" rx="8" fill="rgba(5,16,31,0.85)" stroke="rgba(59,158,232,0.15)"
+              stroke-width="0.5" />
+            <text x="12" y="18" font-size="9" fill="rgba(157,208,240,0.45)" font-family="Inter,sans-serif"
+              letter-spacing="1">LEGENDA</text>
+            <line x1="12" y1="28" x2="36" y2="28" stroke="#3B9EE8" stroke-width="2" stroke-dasharray="5 3" />
+            <text x="42" y="32" font-size="10" fill="#9DD0F0" font-family="Inter,sans-serif">Rota MareSat
+              (otimizada)</text>
+            <line x1="12" y1="44" x2="36" y2="44" stroke="#1361B5" stroke-width="1.5" stroke-dasharray="8 5" />
+            <text x="42" y="48" font-size="10" fill="rgba(157,208,240,0.55)" font-family="Inter,sans-serif">Correntes
+              oceânicas</text>
+          </g>
+
+          <!-- savings badge -->
+          <g transform="translate(420,150)">
+            <rect width="145" height="44" rx="8" fill="rgba(75,227,138,0.1)" stroke="rgba(75,227,138,0.25)"
+              stroke-width="0.5" />
+            <text x="72" y="17" font-size="9" fill="rgba(75,227,138,0.65)" text-anchor="middle"
+              font-family="Inter,sans-serif" letter-spacing="1">ECONOMIA ESTIMADA</text>
+            <text x="72" y="34" font-size="14" fill="#4be38a" text-anchor="middle" font-family="Syne,sans-serif"
+              font-weight="700">↓ 32% CO₂ ↓ 29% combustível</text>
+          </g>
+        </svg>
+        <div class="map-overlay">
+          <div class="ov-title">Painel da rota</div>
+          <div class="ov-row"><span class="ov-key">Origem</span><span class="ov-val">Santos, BR</span></div>
+          <div class="ov-row"><span class="ov-key">Destino</span><span class="ov-val">Roterdã, EU</span></div>
+          <div class="ov-row"><span class="ov-key">Corrente</span><span class="ov-val good">Favorável</span></div>
+          <div class="ov-row"><span class="ov-key">Vento</span><span class="ov-val warn">14 nós SO</span></div>
+          <div class="ov-row"><span class="ov-key">Economia</span><span class="ov-val good">−29% combustível</span></div>
+          <div class="ov-row"><span class="ov-key">CO₂ evitado</span><span class="ov-val good">−32%</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modos de uso -->
+  <section class="modes" id="modos">
+    <div class="sec-inner">
+      <div class="modes-head">
+        <div class="kicker">Plataformas</div>
+        <h2 class="sec-h">Dois modos, uma missão</h2>
+      </div>
+      <div class="cards">
+        <a href="ocean.html" class="card card-ocean">
+          <span class="card-tag">Ocean Mode</span>
+          <h3 class="card-title">Rotas transoceânicas</h3>
+          <p class="card-desc">Para navios de carga e embarcações de longo curso. Painel completo com dados de
+            correntes, vento, consumo e cálculo de rota em tempo real.</p>
+          <ul class="card-list">
+            <li>Mapa interativo de rotas oceânicas</li>
+            <li>Análise de corrente, vento e CO₂</li>
+            <li>Calculadora de rota funcional (JS)</li>
+            <li>Cards de dados fictícios realistas</li>
+          </ul>
+          <span class="card-cta">Acessar plataforma <span class="cta-circle">→</span></span>
+        </a>
+        <a href="coastal.html" class="card card-coastal">
+          <span class="card-tag">Coastal Mode</span>
+          <h3 class="card-title">Navegação costeira</h3>
+          <p class="card-desc">Para pescadores artesanais e embarcações costeiras. Interface simples com zonas de pesca
+            favoráveis e alertas climáticos de segurança.</p>
+          <ul class="card-list">
+            <li>Mapa costeiro com zonas de pesca</li>
+            <li>Alertas de vento e condições do mar</li>
+            <li>Interface acessível e simplificada</li>
+            <li>Banner de alertas de segurança</li>
+          </ul>
+          <span class="card-cta">Acessar plataforma <span class="cta-circle">→</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contador de impacto -->
+  <section class="counter-section">
+    <div class="counter-inner">
+      <div class="counter-label">Impacto estimado anual com MareSat</div>
+      <div class="counter-number" id="counterNum">0<span>t</span></div>
+      <div class="counter-sub">toneladas de CO₂ evitadas por navio/ano</div>
+      <div class="counter-badges">
+        <div class="badge"><span class="badge-dot bdot-green"></span> Emissões reduzidas</div>
+        <div class="badge"><span class="badge-dot bdot-yellow"></span> Combustível economizado</div>
+        <div class="badge"><span class="badge-dot bdot-blue"></span> Correntes aproveitadas</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="f-logo">MareSat<sup>®</sup></div>
+        <p class="f-tagline">Navegação inteligente por correntes oceânicas</p>
+        <div class="f-team-label">Integrantes do grupo</div>
+        <div class="f-team">
+          <span>Pietro de Nadai Fernandes de Andrade</span>
+          <span>Lucas Nunes Nogueira</span>
+          <span>Gabriel Navarro Rosal</span>
+          <span>Erick Henrique Miranda Izidoro</span>
+          <span>João Victor Silva de Paula Cesar</span>
+        </div>
+      </div>
+      <div class="f-right">
+        <div class="f-badge">FIAP · Global Solution 2026/1</div>
+        <p class="f-delivery">Entrega: 09/06/2026</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>MareSat · Protótipo Acadêmico · Todos os direitos reservados</p>
+      <p>Desenvolvido pelo grupo</p>
+    </div>
+  </footer>
+
+  <script>
+    // Partículas simples usadas apenas para dar movimento ao início da página.
+    const canvas = document.getElementById('heroCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function mkParticle() {
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.5 + 0.3,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        alpha: Math.random() * 0.5 + 0.1
+      };
+    }
+
+    for (let i = 0; i < 90; i++) particles.push(mkParticle());
+
+    function animCanvas() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(59,158,232,${p.alpha})`;
+        ctx.fill();
+      });
+      // draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 90) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(59,158,232,${0.07 * (1 - dist / 90)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animCanvas);
+    }
+    animCanvas();
+
+    // Anima o gráfico quando a seção de impacto aparece na tela.
+    const bars = document.querySelectorAll('.bar-fill');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          bars.forEach(b => {
+            b.style.width = b.dataset.width + '%';
+          });
+          obs.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    const impactSec = document.querySelector('.impact-visual');
+    if (impactSec) obs.observe(impactSec);
+
+    // Contador visual do impacto estimado.
+    const counterEl = document.getElementById('counterNum');
+    let counted = false;
+    const counterObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !counted) {
+          counted = true;
+          let val = 0;
+          const target = 2400;
+          const step = Math.ceil(target / 80);
+          const timer = setInterval(() => {
+            val = Math.min(val + step, target);
+            counterEl.innerHTML = val.toLocaleString('pt-BR') + '<span>t</span>';
+            if (val >= target) clearInterval(timer);
+          }, 20);
+        }
+      });
+    }, { threshold: 0.5 });
+    counterObs.observe(counterEl);
+
+    // Entrada suave dos cards principais.
+    const revealEls = document.querySelectorAll('.step, .card, .stat');
+    const revObs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'translateY(0)';
+          }, 80 * i);
+          revObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity .6s ease, transform .6s ease';
+      revObs.observe(el);
+    });
+  </script>
+
+</body>
+
+</html>

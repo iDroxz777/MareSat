@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MareSat - Ocean Mode</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <!-- Menu principal -->
+    <nav aria-label="Navegação principal">
+        <a href="index.html" class="logo">
+            <img src="img/maresat_logo.svg" alt="MareSat Logo" height="150">
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="ocean.html" class="active" aria-current="page">Ocean Mode</a>
+            <a href="coastal.html">Coastal Mode</a>
+        </div>
+    </nav>
+
+    <main class="platform-main">
+        <div class="map-wrapper">
+            <iframe
+                src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=kt&zoom=3&overlay=currents&lat=-20&lon=-30"
+                title="Mapa de correntes oceânicas" loading="lazy" style="width:100%; height:500px; border:none;">
+            </iframe>
+        </div>
+        <div class="route_panel">
+            <h3>Painel de Navegação</h3>
+            <form class="route_inputs" id="routeForm">
+                <div class="input-group">
+                    <label for="origin" class="form-label">Origem</label>
+                    <input type="text" class="form-control" id="origin" placeholder="Ex: Porto de Santos">
+                </div>
+                <div class="input-group">
+                    <label for="destination" class="form-label">Destino</label>
+                    <input type="text" class="form-control" id="destination" placeholder="Ex: Porto do Rio de Janeiro">
+                </div>
+                <button class="btn btn-primary" id="calculateRoute" type="submit">Calcular Rota</button>
+            </form>
+            <p class="route-status" id="routeStatus" aria-live="polite">Preencha origem e destino para simular uma rota otimizada.</p>
+
+            <div class="route_output">
+                <div class="route-grid">
+                    <div>
+                        <div class="data-card">
+                            <h3>Corrente</h3>
+                            <p class="val" id="val-corrente">2,3 nós</p>
+                            <p class="dir" id="dir-corrente">NO > SE</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="data-card">
+                            <h3>Vento</h3>
+                            <p class="val" id="val-vento">3,1 nós</p>
+                            <p class="dir" id="dir-vento">NE > SW</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="data-card">
+                            <h3>Altura de Onda</h3>
+                            <p class="val" id="val-onda">1,5 m</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="data-card">
+                            <h3>Período de Onda</h3>
+                            <p class="val" id="val-periodo">6 s</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="data-card">
+                            <h3>Economia de Combustível</h3>
+                            <p class="val" id="val-economia">20%</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="data-card">
+                            <h3>CO₂ Evitado</h3>
+                            <p class="val" id="val-co2">100 kg</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="data-sources">
+            <div class="source-grid">
+                <div class="source-card">
+                    <div class="source-icon">🛰️</div>
+                    <h4>ESA Copernicus</h4>
+                    <p>Dados de correntes oceânicas, temperatura e salinidade em tempo real via satélites europeus
+                        de observação da Terra.</p>
+                </div>
+                <div class="source-card">
+                    <div class="source-icon">🌍</div>
+                    <h4>NASA Earthdata</h4>
+                    <p>Dados atmosféricos, ventos e cobertura oceânica fornecidos pela rede de satélites da NASA
+                        para navegação segura.</p>
+                </div>
+                <div class="source-card">
+                    <div class="source-icon">📡</div>
+                    <h4>Windy API</h4>
+                    <p>Visualização em tempo real de correntes, ventos e condições meteorológicas oceânicas
+                        integrada diretamente na plataforma.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <div class="f-logo">MareSat<sup>®</sup></div>
+                <p class="f-tagline">Navegação inteligente por correntes oceânicas</p>
+                <div class="f-team-label">Integrantes do grupo</div>
+                <div class="f-team">
+                    <span>Pietro de Nadai Fernandes de Andrade</span>
+                    <span>Lucas Nunes Nogueira</span>
+                    <span>Gabriel Navarro Rosal</span>
+                    <span>Erick Henrique Miranda Izidoro</span>
+                    <span>João Victor Silva de Paula Cesar</span>
+                </div>
+            </div>
+            <div class="f-right">
+                <div class="f-badge">FIAP · Global Solution 2026/1</div>
+                <p class="f-delivery">Entrega: 09/06/2026</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>MareSat · Protótipo Acadêmico · Todos os direitos reservados</p>
+            <p>Desenvolvido pelo grupo</p>
+        </div>
+    </footer>
+
+    <script src="js/ocean.js"></script>
+</body>
+
+</html>
