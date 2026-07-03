@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MareSat - Ocean Mode</title>
+    <meta name="description"
+        content="Painel de simulação oceânica do MareSat com mapa, origem, destino e indicadores de navegação." />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -47,6 +49,11 @@
                 </div>
                 <button class="btn btn-primary" id="calculateRoute" type="submit">Calcular Rota</button>
             </form>
+            <div class="quick-routes" aria-label="Rotas de exemplo">
+                <button type="button" data-origin="Porto de Santos" data-destination="Porto de Roterdã">Santos → Roterdã</button>
+                <button type="button" data-origin="Porto de Suape" data-destination="Porto de Lisboa">Suape → Lisboa</button>
+                <button type="button" data-origin="Porto do Rio de Janeiro" data-destination="Porto de Cape Town">Rio → Cape Town</button>
+            </div>
             <p class="route-status" id="routeStatus" aria-live="polite">Preencha origem e destino para simular uma rota otimizada.</p>
 
             <div class="route_output">

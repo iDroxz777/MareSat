@@ -1,5 +1,7 @@
 const routeForm = document.getElementById('routeForm');
 const routeStatus = document.getElementById('routeStatus');
+const originInput = document.getElementById('origin');
+const destinationInput = document.getElementById('destination');
 
 function mostrarStatus(mensagem, tipo) {
     routeStatus.textContent = mensagem;
@@ -9,8 +11,8 @@ function mostrarStatus(mensagem, tipo) {
 routeForm.addEventListener('submit', function (event) {
     event.preventDefault();
 
-    const origem = document.getElementById('origin').value.trim();
-    const destino = document.getElementById('destination').value.trim();
+    const origem = originInput.value.trim();
+    const destino = destinationInput.value.trim();
 
     if (!origem || !destino) {
         mostrarStatus('Preencha origem e destino para calcular a rota.', 'error');
@@ -39,4 +41,12 @@ routeForm.addEventListener('submit', function (event) {
     document.getElementById('val-co2').textContent = dados.co2 + ' kg';
 
     mostrarStatus('Rota simulada de ' + origem + ' até ' + destino + ' calculada com sucesso.', 'success');
+});
+
+document.querySelectorAll('.quick-routes button').forEach(function (button) {
+    button.addEventListener('click', function () {
+        originInput.value = button.dataset.origin;
+        destinationInput.value = button.dataset.destination;
+        routeForm.requestSubmit();
+    });
 });

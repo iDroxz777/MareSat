@@ -340,6 +340,7 @@ nav {
 }
 
 .impact,
+.demo,
 .how,
 .mapblock,
 .modes,
@@ -349,6 +350,62 @@ nav {
 
 .impact {
   background: var(--navy);
+}
+
+.demo {
+  background: var(--deep);
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.tech-list span,
+.quick-routes button {
+  border: 1px solid rgba(59, 158, 232, 0.18);
+  border-radius: 999px;
+  background: rgba(59, 158, 232, 0.07);
+  color: var(--ice);
+}
+
+.tech-list span {
+  padding: 0.55rem 0.9rem;
+  font-size: 0.8rem;
+}
+
+.demo-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.demo-item {
+  border: 1px solid rgba(59, 158, 232, 0.14);
+  border-radius: 16px;
+  background: rgba(11, 29, 56, 0.58);
+  padding: 1.5rem;
+}
+
+.demo-item strong {
+  display: block;
+  font-family: 'Syne', sans-serif;
+  color: var(--white);
+  margin-bottom: 0.45rem;
+}
+
+.demo-item p {
+  color: rgba(157, 208, 240, 0.68);
+  font-size: 0.9rem;
+  line-height: 1.7;
 }
 
 .impact::before {
@@ -955,6 +1012,25 @@ footer {
   flex-wrap: wrap;
 }
 
+.quick-routes {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.9rem;
+}
+
+.quick-routes button {
+  cursor: pointer;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.78rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.quick-routes button:hover {
+  background: rgba(59, 158, 232, 0.14);
+  border-color: rgba(59, 158, 232, 0.36);
+}
+
 .input-group {
   display: flex;
   flex-direction: column;
@@ -1306,6 +1382,7 @@ footer .footer-inner {
   .hero,
   .page-hero,
   .impact,
+  .demo,
   .how,
   .mapblock,
   .modes,
@@ -1319,6 +1396,7 @@ footer .footer-inner {
 
   .steps,
   .cards,
+  .demo-grid,
   .impact-grid,
   .route-grid,
   .source-grid,

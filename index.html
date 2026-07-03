@@ -5,6 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MareSat — Navegação Inteligente por Correntes Oceânicas</title>
+  <meta name="description"
+    content="Protótipo web acadêmico da FIAP para simular navegação inteligente com correntes oceânicas, economia de combustível e redução de emissões." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -22,6 +24,7 @@
     </a>
     <div class="nav-links">
       <a href="index.html" class="active" aria-current="page">Home</a>
+      <a href="#demo">Demonstração</a>
       <a href="ocean.html">Ocean Mode</a>
       <a href="coastal.html">Coastal Mode</a>
     </div>
@@ -117,7 +120,46 @@
             </div>
           </div>
 
-          <p class="chart-note">* Simulação baseada em dados de rotas oceânicas otimizadas</p>
+    <p class="chart-note">* Simulação baseada em dados de rotas oceânicas otimizadas</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demonstração do protótipo -->
+  <section class="demo" id="demo">
+    <div class="sec-inner">
+      <div class="demo-grid">
+        <div>
+          <div class="kicker">Demonstração</div>
+          <h2 class="sec-h">Um protótipo navegável, não só uma apresentação</h2>
+          <p class="sec-p">
+            O MareSat foi pensado como uma interface de produto: o usuário entende o problema,
+            acessa modos de uso e testa simulações com dados fictícios realistas. A proposta é
+            mostrar como correntes oceânicas poderiam apoiar decisões de rota.
+          </p>
+          <div class="tech-list" aria-label="Tecnologias usadas">
+            <span>HTML5</span>
+            <span>CSS3</span>
+            <span>JavaScript</span>
+            <span>SVG</span>
+            <span>Windy Embed</span>
+          </div>
+        </div>
+
+        <div class="demo-panel">
+          <div class="demo-item">
+            <strong>Ocean Mode</strong>
+            <p>Simula uma rota oceânica e atualiza cards de corrente, vento, ondas, economia e CO₂ evitado.</p>
+          </div>
+          <div class="demo-item">
+            <strong>Coastal Mode</strong>
+            <p>Apresenta zonas de pesca, alerta de segurança e leitura rápida para navegação costeira.</p>
+          </div>
+          <div class="demo-item">
+            <strong>Home interativa</strong>
+            <p>Explica o problema, mostra impacto estimado e usa mapa SVG animado para visualizar a solução.</p>
+          </div>
         </div>
       </div>
     </div>
